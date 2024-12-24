@@ -1,0 +1,137 @@
+<!--&lt;!&ndash;<!DOCTYPE html>&ndash;&gt;-->
+<!--&lt;!&ndash;<html lang="en">&ndash;&gt;-->
+<!--&lt;!&ndash;<head>&ndash;&gt;-->
+<!--&lt;!&ndash;    <meta charset="UTF-8">&ndash;&gt;-->
+<!--&lt;!&ndash;    <meta name="viewport" content="width=device-width, initial-scale=1.0">&ndash;&gt;-->
+<!--&lt;!&ndash;    <title>FindMovies</title>&ndash;&gt;-->
+<!--&lt;!&ndash;    <style>&ndash;&gt;-->
+<!--&lt;!&ndash;        body {&ndash;&gt;-->
+<!--&lt;!&ndash;            font-family: Arial, sans-serif;&ndash;&gt;-->
+<!--&lt;!&ndash;            margin: 10px;&ndash;&gt;-->
+<!--&lt;!&ndash;            width: 400px; /* Set a wider popup width */&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .movie-item {&ndash;&gt;-->
+<!--&lt;!&ndash;            display: flex;&ndash;&gt;-->
+<!--&lt;!&ndash;            align-items: center;&ndash;&gt;-->
+<!--&lt;!&ndash;            margin-bottom: 5px;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .movie-item a {&ndash;&gt;-->
+<!--&lt;!&ndash;            margin-left: 5px;&ndash;&gt;-->
+<!--&lt;!&ndash;            color: blue;&ndash;&gt;-->
+<!--&lt;!&ndash;            text-decoration: underline;&ndash;&gt;-->
+<!--&lt;!&ndash;            cursor: pointer;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        #getMoreInfo {&ndash;&gt;-->
+<!--&lt;!&ndash;            margin-top: 10px;&ndash;&gt;-->
+<!--&lt;!&ndash;            padding: 10px;&ndash;&gt;-->
+<!--&lt;!&ndash;            background-color: #0078d7;&ndash;&gt;-->
+<!--&lt;!&ndash;            color: white;&ndash;&gt;-->
+<!--&lt;!&ndash;            border: none;&ndash;&gt;-->
+<!--&lt;!&ndash;            font-size: 14px;&ndash;&gt;-->
+<!--&lt;!&ndash;            cursor: pointer;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        #getMoreInfo:hover {&ndash;&gt;-->
+<!--&lt;!&ndash;            background-color: #005a9e;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;    </style>&ndash;&gt;-->
+<!--&lt;!&ndash;</head>&ndash;&gt;-->
+<!--&lt;!&ndash;<body>&ndash;&gt;-->
+<!--&lt;!&ndash;<h3>Movies Found</h3>&ndash;&gt;-->
+<!--&lt;!&ndash;<div id="moviesList"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;<button id="getMoreInfo">Get More Info</button>&ndash;&gt;-->
+<!--&lt;!&ndash;<script type="module" src="popup.js"></script>&ndash;&gt;-->
+<!--&lt;!&ndash;</body>&ndash;&gt;-->
+<!--&lt;!&ndash;</html>&ndash;&gt;-->
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>FindMovies</title>-->
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: Arial, sans-serif;-->
+<!--            margin: 10px;-->
+<!--            width: 400px;-->
+<!--        }-->
+<!--        .input-container {-->
+<!--            margin-bottom: 10px;-->
+<!--        }-->
+<!--        #queryInput {-->
+<!--            width: calc(100% - 20px);-->
+<!--            padding: 10px;-->
+<!--            font-size: 14px;-->
+<!--        }-->
+<!--        #submitQuery {-->
+<!--            margin-top: 10px;-->
+<!--            padding: 10px;-->
+<!--            background-color: #0078d7;-->
+<!--            color: white;-->
+<!--            border: none;-->
+<!--            font-size: 14px;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+<!--        #submitQuery:hover {-->
+<!--            background-color: #005a9e;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h3>Enter Your Query</h3>-->
+<!--<div class="input-container">-->
+<!--    <input id="queryInput" type="text" placeholder="Enter movie or text here..." />-->
+<!--    <button id="submitQuery">Search</button>-->
+<!--</div>-->
+<!--<div id="moviesList"></div>-->
+<!--<button id="getMoreInfo" style="display: none;">Get More Info</button>-->
+<!--<script type="module" src="popup.js"></script>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindMovies</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 10px;
+            width: 400px;
+        }
+        .hidden {
+            display: none;
+        }
+        #queryInput {
+            width: calc(100% - 20px);
+            padding: 10px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        #submitQuery {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #0078d7;
+            color: white;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        #submitQuery:hover {
+            background-color: #005a9e;
+        }
+    </style>
+</head>
+<body>
+<h3 id="popupTitle">FindMovies</h3>
+<div id="inputContainer" class="hidden">
+    <input id="queryInput" type="text" placeholder="Enter movie or text here..." />
+    <button id="submitQuery">Search</button>
+</div>
+<div id="moviesList"></div>
+<button id="getMoreInfo" class="hidden">Get More Info</button>
+<script type="module" src="popup.js"></script>
+</body>
+</html>
