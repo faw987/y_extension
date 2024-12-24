@@ -20,7 +20,8 @@ export async function callOpenAI(inputText, apiKey) {
                     role: "user",
                     content: `Extract movie titles from the following text:\n${inputText}. 
                     list each title on a seperate line. Do not number the results, just the title please.
-                    Do not include "The movie title in the given text is" in the output, just the title.`
+                    Do not include "The movie title in the given text is" in the output, just the title.
+                    double check your work.`
                 }
             ],
             max_tokens: 200

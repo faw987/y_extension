@@ -66,7 +66,9 @@ let movieTitles = [];
 // Respond to popup requests
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "getMovies") {
+        console.log("sendResponse({ movies: movieTitles - NEXT", movieTitles);
         sendResponse({ movies: movieTitles });
+        console.log("sendResponse({ movies: movieTitles - AFTER", movieTitles);
     } else if (message.action === "processMovies") {
         console.log("Processing movies:", message.movies);
         // Logic for opening tabs or fetching more info will go here
@@ -98,14 +100,34 @@ chrome.contextMenus.onClicked.addListener((info) => {
         findMovieTitles(inputText).then((titles) => {
             console.log("background titles:",titles);
 
+
+
+//         //     if (titles && titles.length > 0) {
+            movieTitles = titles;
+        //         chrome.action.openPopup(); // Open popup with movies
+//         //     } else {
+//         //         alert("No movie titles found.");
+//         //     }
+
             if (titles.length === 1) {
                     // Directly process the single movie
                     const movieTitle = extractMovieTitle(titles[0]);
                     aggregateSearchResultsInNewWindow(movieTitle);
                 } else {
-                    chrome.storage.local.set({movies: titles}, () => {
-                        chrome.action.openPopup();
-                });
+                //     chrome.storage.local.set({movies: titles}, () => {
+                //         chrome.action.openPopup();
+                // });
+                // Store multiple movies and show popup
+                console.log("local set next titles:",titles);
+
+                chrome.storage.local.set({ movies: titles }, () => {
+                        chrome.windows.create({
+                            url: "popup.html",
+                            type: "popup",
+                            width: 400,
+                            height: 600
+                        });
+                    });
             };
         });
     };
@@ -139,7 +161,10 @@ async function findMovieTitles(inputText, apiKey) {
         body: JSON.stringify({
             model: "gpt-3.5-turbo",
             messages: [
-                { role: "system", content: "Identify all movie titles in the given text." },
+                { role: "system", content: 'Identify all movie titles in the given text.
+                        list each title on a seperate line. Do not number the results, just the title please
+                        Do not include \"The movie title in the given text is\" in the output, just the title
+                        double check your work.'},
                 { role: "user", content: inputText }
             ],
             max_tokens: 200
