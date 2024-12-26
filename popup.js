@@ -87,9 +87,16 @@ import { extractMovieTitle } from './utils/util1.js';
                 // Pre-process the input if needed
                 const processedQuery = extractMovieTitle(userQuery);
 
-                // const desc = findMovieTerseDesc(processedQuery);
-                // console.log("`desc ${desc}.");
+                // findMovieTerseDesc(processedQuery).then((titles) => {
+                //     console.log("background titles:",titles);
+                // });
 
+                // const x =  findMovieTerseDesc(processedQuery);
+                // console.log("findMovieTerseDesc:",x);
+
+                // console.log("`desc ${desc}.");
+                // findMovieTitles(inputText).then((titles) => {
+                //     console.log("background titles:",titles);
 
                 aggregateSearchResultsInNewWindow(processedQuery);
             } else {
@@ -217,7 +224,7 @@ async function findMovieTerseDesc(inputText, apiKey) {
                 { role: "system", content: 'Identify all movie titles in the given text.'},
                 {
                     role: "user",
-                    content: "Generate a terse pithy one line description of this movie:${inputText}."
+                    content: `Generate a terse pithy one line description of this movie:${inputText}.`
                 }
             ],
             max_tokens: 200
