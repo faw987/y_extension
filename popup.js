@@ -43,6 +43,16 @@ import { extractMovieTitle } from './utils/util1.js';
         const submitQuery = document.getElementById("submitQuery");
         const moviesList = document.getElementById("moviesList");
         const getMoreInfo = document.getElementById("getMoreInfo");
+        const configureButton = document.getElementById("configureButton");
+
+        configureButton.addEventListener("click", () => {
+            chrome.windows.create({
+                url: "config.html",
+                type: "popup",
+                width: 350,
+                height: 400
+            });
+        });
 
         function buildHtml(movies, moviesList) {
             movies.forEach((movie) => {
@@ -63,8 +73,8 @@ import { extractMovieTitle } from './utils/util1.js';
                     handleMovieClick(extractMovieTitle(movie));
                 });
 
-                item.appendChild(link);
                 item.appendChild(checkbox);
+                item.appendChild(link);
 
                 moviesList.appendChild(item);
             });

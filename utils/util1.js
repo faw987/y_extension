@@ -105,7 +105,8 @@ const searchEngines = [
     { name: "Rotten Tomatoes", url: (query) => `https://www.rottentomatoes.com/search?search=${encodeURIComponent(query)}` },
     { name: "Netflix", url: (query) => `https://www.netflix.com/search?q=${encodeURIComponent(query)}` },
     { name: "IMDb", url: (query) => `https://www.imdb.com/search/title/?title=${encodeURIComponent(query)}` },
-    { name: "Wikipedia", url: (query) => `https://en.wikipedia.org/wiki/Special:Search/${encodeURIComponent(query)}` }
+    { name: "Wikipedia", url: (query) => `https://en.wikipedia.org/wiki/Special:Search/${encodeURIComponent(query)}` },
+    { name: "Amazon", url: (query) => `https://www.amazon.com/s?k=${encodeURIComponent(query)}` }
 ];
 
 // Open search results in the current window
@@ -116,12 +117,37 @@ export function aggregateSearchResults(query) {
 }
 
 // Open search results in a new window
+// export function aggregateSearchResultsInNewWindow(query) {
+//     const urls = searchEngines.map((engine) => engine.url(query));
+//     chrome.windows.create({
+//         url: urls,
+//         type: "normal"
+//     }, () => {
+//         console.log("New window created with search tabs.");
+//     });
+// }
+
+// Open search results in a new window based on user-configured search engines
 export function aggregateSearchResultsInNewWindow(query) {
-    const urls = searchEngines.map((engine) => engine.url(query));
-    chrome.windows.create({
-        url: urls,
-        type: "normal"
-    }, () => {
-        console.log("New window created with search tabs.");
+    chrome.storage.local.get("searchEngineConfig", (data) => {
+        const config = data.searchEngineConfig || {};
+
+        // Filter search engines based on the stored configuration
+        const selectedEngines = searchEngines.filter((engine) => config[engine.name] !== false);
+
+        // Generate URLs for the selected search engines
+        const urls = selectedEngines.map((engine) => engine.url(query));
+
+        if (urls.length > 0) {
+            chrome.windows.create({
+                url: urls,
+                type: "normal"
+            }, () => {
+                console.log("New window created with search tabs:", urls);
+            });
+        } else {
+            console.log("No search engines selected.");
+            alert("Please configure at least one search engine to open results.");
+        }
     });
 }

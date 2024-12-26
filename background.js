@@ -161,11 +161,14 @@ async function findMovieTitles(inputText, apiKey) {
         body: JSON.stringify({
             model: "gpt-3.5-turbo",
             messages: [
-                { role: "system", content: 'Identify all movie titles in the given text.
-                        list each title on a seperate line. Do not number the results, just the title please
-                        Do not include \"The movie title in the given text is\" in the output, just the title
-                        double check your work.'},
-                { role: "user", content: inputText }
+                { role: "system", content: 'Identify all movie titles in the given text.'},
+                {
+                    role: "user",
+                    content: `Extract movie titles from the following text:\n${inputText}. 
+                    list each title on a seperate line. Do not number the results, just the title please.
+                    Do not include "The movie title in the given text is" in the output, just the title.
+                    double check your work.`
+                 }
             ],
             max_tokens: 200
         })
@@ -177,5 +180,6 @@ async function findMovieTitles(inputText, apiKey) {
 
     const data = await response.json();
     const resultText = data.choices[0]?.message?.content?.trim();
+    console.log(`background resultText ${resultText}`)
     return resultText ? resultText.split("\n").map((line) => line.trim()) : [];
 }
