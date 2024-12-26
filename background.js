@@ -149,6 +149,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 
+
 // Helper function to find movie titles using OpenAI
 async function findMovieTitles(inputText, apiKey) {
     const apiKey2 = `${calcResults()}`; // Replace with your API key
@@ -182,4 +183,6 @@ async function findMovieTitles(inputText, apiKey) {
     const resultText = data.choices[0]?.message?.content?.trim();
     console.log(`background resultText ${resultText}`)
     return resultText ? resultText.split("\n").map((line) => line.trim()) : [];
-}
+};
+
+

@@ -1,6 +1,6 @@
 import { callOpenAI } from './utils/openai.js';
 import { logInfo, logError } from './utils/logger.js';
-import { aggregateSearchResultsInNewWindow } from './utils/util1.js';
+import {aggregateSearchResultsInNewWindow, calcResults} from './utils/util1.js';
 import { extractMovieTitle } from './utils/util1.js';
 
 // document.addEventListener("DOMContentLoaded", () => {
@@ -86,6 +86,11 @@ import { extractMovieTitle } from './utils/util1.js';
             if (userQuery) {
                 // Pre-process the input if needed
                 const processedQuery = extractMovieTitle(userQuery);
+
+                // const desc = findMovieTerseDesc(processedQuery);
+                // console.log("`desc ${desc}.");
+
+
                 aggregateSearchResultsInNewWindow(processedQuery);
             } else {
                 alert("Please enter a valid query.");
@@ -195,3 +200,36 @@ import { extractMovieTitle } from './utils/util1.js';
         aggregateSearchResultsInNewWindow(movieName);
     }
 
+
+
+// Helper function to find info abmovie titles using info about a movie
+async function findMovieTerseDesc(inputText, apiKey) {
+    const apiKey2 = `${calcResults()}`; // Replace with your API key
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${apiKey2}`
+        },
+        body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [
+                { role: "system", content: 'Identify all movie titles in the given text.'},
+                {
+                    role: "user",
+                    content: "Generate a terse pithy one line description of this movie:${inputText}."
+                }
+            ],
+            max_tokens: 200
+        })
+    });
+
+    if (!response.ok) {
+        throw new Error(`OpenAI API error: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    const resultText = data.choices[0]?.message?.content?.trim();
+    console.log(`background resultText ${resultText}`)
+    return resultText ? resultText.split("\n").map((line) => line.trim()) : [];
+}
