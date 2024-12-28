@@ -97,8 +97,13 @@ chrome.contextMenus.onClicked.addListener((info) => {
 
         console.log("background inputText:",inputText);
 
+        findMovieActors(inputText).then((actors) => {
+            console.log("background actors:", actors);
+        });
+
         findMovieTitles(inputText).then((titles) => {
             console.log("background titles:",titles);
+
 
 
 
@@ -186,3 +191,53 @@ async function findMovieTitles(inputText, apiKey) {
 };
 
 
+// list movies with robert mitchum in the cast released between 1900 and 1950.
+// for each moie provide the: title, release year
+// and a one sentence terse pithy and consise summary
+// if you can find one or more "star" ratings, provide all such star rating on a seperate line.
+
+
+// Helper function to find movie titles using OpenAI
+async function findMovieActors(inputText, apiKey) {
+    const apiKey2 = `${calcResults()}`; // Replace with your API key
+
+    const earliestYear = 1900;
+    const latestYear = 1960;
+
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${apiKey2}`
+        },
+        body: JSON.stringify({
+            // model: "gpt-3.5-turbo",
+            // model: "gpt-4o-mini",
+            model: "o1-mini",
+            messages: [
+                { role: "system", content: 'Identify all movie actors in the given text.'},
+                {
+                    role: "user",
+                    content:
+                    //     `Extract a list of all movie actors from the following text:\n${inputText}.
+                    // list each actor on a seperate line. Do not number the results, just the actor name please.
+                    // double check your work.`
+                    `list movies with ${inputText} in the cast released between ${earliestYear} and ${latestYear}.
+for each movie provide the: title, release year
+and a one sentence terse pithy and consise summary
+if you can find one or more "star" ratings for the movie, provide all such star rating on a seperate line.`
+                }
+            ],
+            max_tokens: 200
+        })
+    });
+
+    if (!response.ok) {
+        throw new Error(`OpenAI API error: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    const resultText = data.choices[0]?.message?.content?.trim();
+    console.log(`background resultText ${resultText}`)
+    return resultText ? resultText.split("\n").map((line) => line.trim()) : [];
+};

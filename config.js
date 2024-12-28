@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
         { name: "Netflix" },
         { name: "IMDb" },
         { name: "Wikipedia" },
-        { name: "Amazon" }
+        { name: "Amazon" },
+        { name: "faw98" }
     ];
 
 
