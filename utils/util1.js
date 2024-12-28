@@ -5,9 +5,14 @@ export function extractMovieTitle(rawTitle) {
 }
 
 export function calcResults() {
-    const p0 = "sk-" + "proj-ibTFzOD8mvr-y0GZhaHi5dQqBKxyIBvmUSaWkFYuQ7nwH6Fp22f";
-    const p1 = "CATjdebf31wcyE6OYUFQjCKT3BlbkFJuNy1w";
-    const p2 = "4CWxPB43-PzUkW8yzX5BKERS0CJZ7RNkUczjdeKhpz-U0AzkqugTFLO3239CpXA3aTcwA";
+    // const p0 = "sk-" + "proj-ibTFzOD8mvr-y0GZhaHi5dQqBKxyIBvmUSaWkFYuQ7nwH6Fp22f";
+    // const p1 = "CATjdebf31wcyE6OYUFQjCKT3BlbkFJuNy1w";
+    // const p2 = "4CWxPB43-PzUkW8yzX5BKERS0CJZ7RNkUczjdeKhpz-U0AzkqugTFLO3239CpXA3aTcwA";
+
+    const p0 = "sk-" + "proj-9Bhqoki1MgfS8v6JWlPbLWBx994X2o21NBj9tI7AsWFT9aLYAmxrROQk6tun43";
+    const p1 = "-tjIUQiaDMwTT3BlbkFJGlDPtRgpk05hovtANnzGKWTbOx";
+    const p2 = "94jVSpGuSwMiv2rpvuW4sVLWVgWCucNnfOPl0Or03QmcvXoA"
+
 
     const pp0 = p0 + p1;
     const pp1 = pp0 + p2;
@@ -106,7 +111,7 @@ const searchEngines = [
     { name: "Netflix", url: (query) => `https://www.netflix.com/search?q=${encodeURIComponent(query)}` },
     { name: "IMDb", url: (query) => `https://www.imdb.com/search/title/?title=${encodeURIComponent(query)}` },
     { name: "Wikipedia", url: (query) => `https://en.wikipedia.org/wiki/Special:Search/${encodeURIComponent(query)}` },
-    { name: "Amazon", url: (query) => `https://www.amazon.com/s?k=${encodeURIComponent(query)}` }
+    { name: "Amazon", url: (query) => `https://www.amazon.com/s?k=${encodeURIComponent(query)}` },
     { name: "faw98", url: (query) => `http://faw987.github.io/faw98?k=${encodeURIComponent(query)}` }
 ];
 
