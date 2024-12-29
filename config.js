@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const newWindowPreference = newWindowCheckbox.checked;
 
         console.log(`before store newWindowPreference: ${newWindowPreference}`);
-        alert(`before store newWindowPreference: ${newWindowPreference}`);
+        // alert(`before store newWindowPreference: ${newWindowPreference}`);
 
         chrome.storage.local.set(
             { searchEngineConfig: config, newWindowPreference },
