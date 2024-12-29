@@ -114,6 +114,10 @@ export function aggregateSearchResults(query) {
         const config = data.searchEngineConfig || {};
         const newWindowPreference = data.newWindowPreference ?? true;
 
+        console.log(`after get newWindowPreference: ${newWindowPreference}`);
+        alert(`after get newWindowPreference: ${newWindowPreference}`);
+
+
         // Filter selected search engines
         const selectedEngines = searchEngines.filter((engine) => config[engine.name] !== false);
         const urls = selectedEngines.map((engine) => engine.url(query));
@@ -125,6 +129,7 @@ export function aggregateSearchResults(query) {
 
         if (newWindowPreference) {
             // Open in a new window
+            alert("if-part newWindowPreference");
             chrome.windows.create({
                 url: urls,
                 type: "normal"
@@ -133,6 +138,7 @@ export function aggregateSearchResults(query) {
             });
         } else {
             // Open in the current window
+            alert("else-part newWindowPreference");
             urls.forEach((url) => {
                 chrome.tabs.create({ url });
             });
@@ -142,25 +148,62 @@ export function aggregateSearchResults(query) {
 
 // Open search results in a new window based on user-configured search engines
 export function aggregateSearchResultsInNewWindow(query) {
-    chrome.storage.local.get("searchEngineConfig", (data) => {
+    // chrome.storage.local.get("searchEngineConfig", (data) => {
+    //     const config = data.searchEngineConfig || {};
+    //
+    //     alert(`aggregateSearchResultsInNewWindow`);
+    //
+    //
+    //     // Filter search engines based on the stored configuration
+    //     const selectedEngines = searchEngines.filter((engine) => config[engine.name] !== false);
+    //
+    //     // Generate URLs for the selected search engines
+    //     const urls = selectedEngines.map((engine) => engine.url(query));
+    //
+    //     if (urls.length > 0) {
+    //         chrome.windows.create({
+    //             url: urls,
+    //             type: "normal"
+    //         }, () => {
+    //             console.log("New window created with search tabs:", urls);
+    //         });
+    //     } else {
+    //         console.log("No search engines selected.");
+    //         alert("Please configure at least one search engine to open results.");
+    //     }
+    // });
+    chrome.storage.local.get(["searchEngineConfig", "newWindowPreference"], (data) => {
         const config = data.searchEngineConfig || {};
+        const newWindowPreference = data.newWindowPreference ?? true;
 
-        // Filter search engines based on the stored configuration
+        console.log(`aaggregateSearchResultsInNewWindow after get newWindowPreference: ${newWindowPreference}`);
+        alert(`aggregateSearchResultsInNewWindow after get newWindowPreference: ${newWindowPreference}`);
+
+
+        // Filter selected search engines
         const selectedEngines = searchEngines.filter((engine) => config[engine.name] !== false);
-
-        // Generate URLs for the selected search engines
         const urls = selectedEngines.map((engine) => engine.url(query));
 
-        if (urls.length > 0) {
+        if (urls.length === 0) {
+            alert("Please configure at least one search engine.");
+            return;
+        }
+
+        if (newWindowPreference) {
+            // Open in a new window
+            alert("if-part newWindowPreference");
             chrome.windows.create({
                 url: urls,
                 type: "normal"
             }, () => {
-                console.log("New window created with search tabs:", urls);
+                console.log("New window created with search tabs.");
             });
         } else {
-            console.log("No search engines selected.");
-            alert("Please configure at least one search engine to open results.");
+            // Open in the current window
+            alert("else-part newWindowPreference");
+            urls.forEach((url) => {
+                chrome.tabs.create({ url });
+            });
         }
     });
 }

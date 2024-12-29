@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     const searchEngines = [
-        { name: "Google" },
         { name: "Rotten Tomatoes" },
         { name: "IMDb" },
         { name: "Google" },
@@ -17,9 +16,29 @@ document.addEventListener("DOMContentLoaded", () => {
         { name: "faw98" }
     ];
 
-        // Load stored configuration
-    chrome.storage.local.get("searchEngineConfig", (data) => {
+    //     // Load stored configuration
+    // chrome.storage.local.get("searchEngineConfig", (data) => {
+    //     const storedConfig = data.searchEngineConfig || {};
+    //     searchEngines.forEach((engine, index) => {
+    //         const label = document.createElement("label");
+    //         const checkbox = document.createElement("input");
+    //
+    //         checkbox.type = "checkbox";
+    //         checkbox.checked = storedConfig[engine.name] ?? true;
+    //         checkbox.dataset.index = index;
+    //
+    //         label.appendChild(checkbox);
+    //         label.appendChild(document.createTextNode(` ${engine.name}`));
+    //         checkboxContainer.appendChild(label);
+    //     });
+    // });
+
+    // Load stored configuration
+    chrome.storage.local.get(["searchEngineConfig", "newWindowPreference"], (data) => {
         const storedConfig = data.searchEngineConfig || {};
+        const newWindowPreference = data.newWindowPreference ?? true;
+
+        // Populate search engine checkboxes
         searchEngines.forEach((engine, index) => {
             const label = document.createElement("label");
             const checkbox = document.createElement("input");
@@ -32,6 +51,9 @@ document.addEventListener("DOMContentLoaded", () => {
             label.appendChild(document.createTextNode(` ${engine.name}`));
             checkboxContainer.appendChild(label);
         });
+
+        // Set new window preference
+        newWindowCheckbox.checked = newWindowPreference;
     });
 
     // Set All Checkboxes
@@ -57,6 +79,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         const newWindowPreference = newWindowCheckbox.checked;
+
+        console.log(`before store newWindowPreference: ${newWindowPreference}`);
+        alert(`before store newWindowPreference: ${newWindowPreference}`);
 
         chrome.storage.local.set(
             { searchEngineConfig: config, newWindowPreference },

@@ -118,7 +118,7 @@ async function findMovieTitles(inputText, apiKey) {
     });
 
     if (!response.ok) {
-        throw new Error(`OpenAI API error: ${response.statusText}`);
+        throw new Error(`findMovieTitles OpenAI API error: ${response.statusText}`);
     }
 
     const data = await response.json();
@@ -170,7 +170,7 @@ if you can find one or more "star" ratings for the movie, provide all such star 
     });
 
     if (!response.ok) {
-        throw new Error(`OpenAI API error: ${response.statusText}`);
+        throw new Error(`findMovieActors OpenAI API error: ${response.statusText}`);
     }
 
     const data = await response.json();
