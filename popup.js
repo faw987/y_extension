@@ -1,9 +1,9 @@
-import { callOpenAI } from './utils/openai.js';
-import { logInfo, logError } from './utils/logger.js';
+import {callOpenAI} from './utils/openai.js';
+import {logInfo, logError} from './utils/logger.js';
 import {aggregateSearchResultsInNewWindow, calcResults} from './utils/util1.js';
-import { extractMovieTitle } from './utils/util1.js';
+import {extractMovieTitle} from './utils/util1.js';
 
-    document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
         const inputContainer = document.getElementById("inputContainer");
         const queryInput = document.getElementById("queryInput");
         const submitQuery = document.getElementById("submitQuery");
@@ -41,8 +41,9 @@ import { extractMovieTitle } from './utils/util1.js';
                 item.appendChild(link);
 
                 moviesList.appendChild(item);
-            });
-    }
+            })
+        };
+
 
         // Function to handle the search action
         function handleSearch() {
@@ -68,7 +69,7 @@ import { extractMovieTitle } from './utils/util1.js';
 
 
         // Determine the context: toolbar or context menu
-        chrome.runtime.sendMessage({ action: "getContext" }, (response) => {
+        chrome.runtime.sendMessage({action: "getContext"}, (response) => {
             const context = response.context;
 
             if (context === "toolbar") {
@@ -76,10 +77,10 @@ import { extractMovieTitle } from './utils/util1.js';
                 inputContainer.classList.remove("hidden");
             } else if (context === "contextMenu") {
                 // Handle context menu invocation (populate movie list)
-                chrome.runtime.sendMessage({ action: "getMovies" }, (response) => {
+                chrome.runtime.sendMessage({action: "getMovies"}, (response) => {
                     const movies = response.movies || [];
 
-                    console.log("popup movies:",movies);
+                    console.log("popup movies:", movies);
 
                     if (movies.length === 0) {
                         moviesList.innerHTML = "<p>No movies found.</p>";
@@ -103,61 +104,62 @@ import { extractMovieTitle } from './utils/util1.js';
             }
         });
 
-    // Handle GetMoreInfo button click
-    getMoreInfo.addEventListener("click", () => {
-        const selectedMovies = [];
-        document.querySelectorAll(".movie-item input[type='checkbox']").forEach((checkbox) => {
-            if (checkbox.checked) {
-                selectedMovies.push(checkbox.value);
+        // Handle GetMoreInfo button click
+        getMoreInfo.addEventListener("click", () => {
+            const selectedMovies = [];
+            document.querySelectorAll(".movie-item input[type='checkbox']").forEach((checkbox) => {
+                if (checkbox.checked) {
+                    selectedMovies.push(checkbox.value);
+                }
+            });
+
+            if (selectedMovies.length > 0) {
+                chrome.runtime.sendMessage({action: "processMovies", movies: selectedMovies});
+                // window.close(); // Close the popup after processing HACK
+            } else {
+                alert("Please select at least one movie.");
             }
         });
 
-        if (selectedMovies.length > 0) {
-            chrome.runtime.sendMessage({ action: "processMovies", movies: selectedMovies });
-            // window.close(); // Close the popup after processing HACK
-        } else {
-            alert("Please select at least one movie.");
+        // Handle movie link click
+        function handleMovieClick(movieName) {
+            console.log(`Movie clicked: ${movieName}`);
+            // Placeholder for further functionality
+            // alert(`You clicked on: ${movieName}`);
+            aggregateSearchResultsInNewWindow(movieName);
         }
-    });
-
-    // Handle movie link click
-    function handleMovieClick(movieName) {
-        console.log(`Movie clicked: ${movieName}`);
-        // Placeholder for further functionality
-        // alert(`You clicked on: ${movieName}`);
-        aggregateSearchResultsInNewWindow(movieName);
-    }
-
 
 
 // Helper function to find info abmovie titles using info about a movie
-async function findMovieTerseDesc(inputText, apiKey) {
-    const apiKey2 = `${calcResults()}`; // Replace with your API key
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${apiKey2}`
-        },
-        body: JSON.stringify({
-            model: "gpt-3.5-turbo",
-            messages: [
-                { role: "system", content: 'Identify all movie titles in the given text.'},
-                {
-                    role: "user",
-                    content: `Generate a terse pithy one line description of this movie:${inputText}.`
-                }
-            ],
-            max_tokens: 200
-        })
-    });
+        async function findMovieTerseDesc(inputText, apiKey) {
+            const apiKey2 = `${calcResults()}`; // Replace with your API key
+            const response = await fetch("https://api.openai.com/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${apiKey2}`
+                },
+                body: JSON.stringify({
+                    model: "gpt-3.5-turbo",
+                    messages: [
+                        {role: "system", content: 'Identify all movie titles in the given text.'},
+                        {
+                            role: "user",
+                            content: `Generate a terse pithy one line description of this movie:${inputText}.`
+                        }
+                    ],
+                    max_tokens: 200
+                })
+            });
 
-    if (!response.ok) {
-        throw new Error(`OpenAI API error: ${response.statusText}`);
+            if (!response.ok) {
+                throw new Error(`OpenAI API error: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            const resultText = data.choices[0]?.message?.content?.trim();
+            console.log(`background resultText ${resultText}`)
+            return resultText ? resultText.split("\n").map((line) => line.trim()) : [];
+        };
     }
-
-    const data = await response.json();
-    const resultText = data.choices[0]?.message?.content?.trim();
-    console.log(`background resultText ${resultText}`)
-    return resultText ? resultText.split("\n").map((line) => line.trim()) : [];
-}
+)
