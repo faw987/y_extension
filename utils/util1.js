@@ -191,7 +191,7 @@ export function aggregateSearchResultsInNewWindow(query) {
 
         if (newWindowPreference) {
             // Open in a new window
-            alert("if-part newWindowPreference");
+            console.log("if-part newWindowPreference");
             chrome.windows.create({
                 url: urls,
                 type: "normal"
@@ -200,7 +200,7 @@ export function aggregateSearchResultsInNewWindow(query) {
             });
         } else {
             // Open in the current window
-            alert("else-part newWindowPreference");
+            console.log("else-part newWindowPreference");
             urls.forEach((url) => {
                 chrome.tabs.create({ url });
             });
