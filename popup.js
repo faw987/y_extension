@@ -93,16 +93,16 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         // Handle Search Button Click
-        submitQuery.addEventListener("click", () => {
-            const userQuery = queryInput.value.trim();
-
-            if (userQuery) {
-                // Process the query
-                aggregateSearchResultsInNewWindow(userQuery);
-            } else {
-                alert("Please enter a valid query.");
-            }
-        });
+        // submitQuery.addEventListener("click", () => {
+        //     const userQuery = queryInput.value.trim();
+        //
+        //     if (userQuery) {
+        //         // Process the query
+        //         aggregateSearchResultsInNewWindow(userQuery);
+        //     } else {
+        //         alert("Please enter a valid query.");
+        //     }
+        // });
 
         // Handle GetMoreInfo button click
         getMoreInfo.addEventListener("click", () => {
