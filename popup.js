@@ -3,40 +3,6 @@ import { logInfo, logError } from './utils/logger.js';
 import {aggregateSearchResultsInNewWindow, calcResults} from './utils/util1.js';
 import { extractMovieTitle } from './utils/util1.js';
 
-// document.addEventListener("DOMContentLoaded", () => {
-    // const moviesList = document.getElementById("moviesList");
-    // const getMoreInfo = document.getElementById("getMoreInfo");
-    //
-    // // Fetch movies from background script
-    // chrome.runtime.sendMessage({ action: "getMovies" }, (response) => {
-    //     const movies = response.movies || [];
-    //     if (movies.length === 0) {
-    //         moviesList.innerHTML = "<p>No movies found.</p>";
-    //         getMoreInfo.disabled = true;
-    //     } else {
-    //         // Render movie list with checkboxes and links
-    //         movies.forEach((movie) => {
-    //             const item = document.createElement("div");
-    //             item.className = "movie-item";
-    //
-    //             const checkbox = document.createElement("input");
-    //             checkbox.type = "checkbox";
-    //             checkbox.value = movie;
-    //
-    //             const link = document.createElement("a");
-    //             link.textContent = movie;
-    //             link.href = "#";
-    //             link.addEventListener("click", () => {
-    //                 handleMovieClick(extractMovieTitle(movie));
-    //             });
-    //
-    //             item.appendChild(checkbox);
-    //             item.appendChild(link);
-    //             moviesList.appendChild(item);
-    //         });
-    //     }
-    // });
-
     document.addEventListener("DOMContentLoaded", () => {
         const inputContainer = document.getElementById("inputContainer");
         const queryInput = document.getElementById("queryInput");
@@ -56,8 +22,6 @@ import { extractMovieTitle } from './utils/util1.js';
 
         function buildHtml(movies, moviesList) {
             movies.forEach((movie) => {
-                // const item = document.createElement("div");
-                // item.textContent = movie;
 
                 const item = document.createElement("div");
                 item.className = "movie-item";
@@ -86,18 +50,6 @@ import { extractMovieTitle } from './utils/util1.js';
             if (userQuery) {
                 // Pre-process the input if needed
                 const processedQuery = extractMovieTitle(userQuery);
-
-                // findMovieTerseDesc(processedQuery).then((titles) => {
-                //     console.log("background titles:",titles);
-                // });
-
-                // const x =  findMovieTerseDesc(processedQuery);
-                // console.log("findMovieTerseDesc:",x);
-
-                // console.log("`desc ${desc}.");
-                // findMovieTitles(inputText).then((titles) => {
-                //     console.log("background titles:",titles);
-
                 aggregateSearchResultsInNewWindow(processedQuery);
             } else {
                 alert("Please enter a valid query.");
@@ -132,29 +84,6 @@ import { extractMovieTitle } from './utils/util1.js';
                     if (movies.length === 0) {
                         moviesList.innerHTML = "<p>No movies found.</p>";
                     } else {
-                        // movies.forEach((movie) => {
-                        //     // const item = document.createElement("div");
-                        //     // item.textContent = movie;
-                        //
-                        //     const item = document.createElement("div");
-                        //     item.className = "movie-item";
-                        //
-                        //     const checkbox = document.createElement("input");
-                        //     checkbox.type = "checkbox";
-                        //     checkbox.value = movie;
-                        //
-                        //     const link = document.createElement("a");
-                        //     link.textContent = movie;
-                        //     link.href = "#";
-                        //     link.addEventListener("click", () => {
-                        //         handleMovieClick(extractMovieTitle(movie));
-                        //     });
-                        //
-                        //     item.appendChild(link);
-                        //     item.appendChild(checkbox);
-                        //
-                        //     moviesList.appendChild(item);
-                        // });
                         buildHtml(movies, moviesList);
                         getMoreInfo.classList.remove("hidden");
                     }
@@ -173,14 +102,6 @@ import { extractMovieTitle } from './utils/util1.js';
                 alert("Please enter a valid query.");
             }
         });
-
-        // Simulated aggregateSearchResultsInNewWindow function
-        // function aggregateSearchResultsInNewWindow(query) {
-        //     console.log(`Opening tabs for query: ${query}`);
-        //     // Replace with your actual function to open search tabs
-        // }
-    });
-
 
     // Handle GetMoreInfo button click
     getMoreInfo.addEventListener("click", () => {

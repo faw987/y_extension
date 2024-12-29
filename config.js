@@ -1,19 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
     const checkboxContainer = document.getElementById("checkboxContainer");
+    // const saveConfigButton = document.getElementById("saveConfig");
+    const setAllButton = document.getElementById("setAll");
+    const clearAllButton = document.getElementById("clearAll");
     const saveConfigButton = document.getElementById("saveConfig");
+
 
     const searchEngines = [
         { name: "Google" },
         { name: "Rotten Tomatoes" },
-        { name: "Netflix" },
         { name: "IMDb" },
+        { name: "Google" },
+        { name: "Netflix" },
         { name: "Wikipedia" },
         { name: "Amazon" },
         { name: "faw98" }
     ];
 
-
-    // Load stored configuration
+        // Load stored configuration
     chrome.storage.local.get("searchEngineConfig", (data) => {
         const storedConfig = data.searchEngineConfig || {};
         searchEngines.forEach((engine, index) => {
@@ -30,6 +34,20 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // Set All Checkboxes
+    setAllButton.addEventListener("click", () => {
+        checkboxContainer.querySelectorAll("input[type='checkbox']").forEach((checkbox) => {
+            checkbox.checked = true;
+        });
+    });
+
+    // Clear All Checkboxes
+    clearAllButton.addEventListener("click", () => {
+        checkboxContainer.querySelectorAll("input[type='checkbox']").forEach((checkbox) => {
+            checkbox.checked = false;
+        });
+    });
+
     // Save configuration
     saveConfigButton.addEventListener("click", () => {
         const config = {};
@@ -38,9 +56,14 @@ document.addEventListener("DOMContentLoaded", () => {
             config[engineName] = checkbox.checked;
         });
 
-        chrome.storage.local.set({ searchEngineConfig: config }, () => {
-            alert("Configuration saved!");
-            window.close();
-        });
+        const newWindowPreference = newWindowCheckbox.checked;
+
+        chrome.storage.local.set(
+            { searchEngineConfig: config, newWindowPreference },
+            () => {
+                // alert("Configuration saved!");
+                window.close();
+            }
+        );
     });
 });

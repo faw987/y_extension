@@ -5,20 +5,15 @@ export function extractMovieTitle(rawTitle) {
 }
 
 export function calcResults() {
-    // const p0 = "sk-" + "proj-ibTFzOD8mvr-y0GZhaHi5dQqBKxyIBvmUSaWkFYuQ7nwH6Fp22f";
-    // const p1 = "CATjdebf31wcyE6OYUFQjCKT3BlbkFJuNy1w";
-    // const p2 = "4CWxPB43-PzUkW8yzX5BKERS0CJZ7RNkUczjdeKhpz-U0AzkqugTFLO3239CpXA3aTcwA";
 
     const p0 = "sk-" + "proj-9Bhqoki1MgfS8v6JWlPbLWBx994X2o21NBj9tI7AsWFT9aLYAmxrROQk6tun43";
     const p1 = "-tjIUQiaDMwTT3BlbkFJGlDPtRgpk05hovtANnzGKWTbOx";
     const p2 = "94jVSpGuSwMiv2rpvuW4sVLWVgWCucNnfOPl0Or03QmcvXoA"
 
-
     const pp0 = p0 + p1;
     const pp1 = pp0 + p2;
     return pp1;
 }
-
 
 export async function processMovieList(inputText) {
     try {
@@ -51,7 +46,6 @@ export async function findMovieTitle(inputText) {
     const apiUrl = "https://api.openai.com/v1/chat/completions";
 
     const apiKey = `${calcResults()}`; // Replace with your API key
-
 
     const response = await fetch(apiUrl, {
         method: "POST",
@@ -106,32 +100,45 @@ export async function fetchTitleFromUrl(url) {
 
 // Define search engines
 const searchEngines = [
-    { name: "Google", url: (query) => `https://www.google.com/search?q=${encodeURIComponent(query)}` },
     { name: "Rotten Tomatoes", url: (query) => `https://www.rottentomatoes.com/search?search=${encodeURIComponent(query)}` },
-    { name: "Netflix", url: (query) => `https://www.netflix.com/search?q=${encodeURIComponent(query)}` },
     { name: "IMDb", url: (query) => `https://www.imdb.com/search/title/?title=${encodeURIComponent(query)}` },
+    { name: "Google", url: (query) => `https://www.google.com/search?q=${encodeURIComponent(query)}` },
+    { name: "Netflix", url: (query) => `https://www.netflix.com/search?q=${encodeURIComponent(query)}` },
     { name: "Wikipedia", url: (query) => `https://en.wikipedia.org/wiki/Special:Search/${encodeURIComponent(query)}` },
     { name: "Amazon", url: (query) => `https://www.amazon.com/s?k=${encodeURIComponent(query)}` },
-    { name: "faw98", url: (query) => `http://faw987.github.io/faw98?text=${encodeURIComponent(query)}&model=o1-mini&submit=true` }
+    { name: "faw98", url: (query) => `http://faw987.github.io/faw98?text=${encodeURIComponent(query)}&model=o1-mini&movie=true&submit=true` }
 ];
 
-// Open search results in the current window
 export function aggregateSearchResults(query) {
-    searchEngines.forEach((engine) => {
-        chrome.tabs.create({ url: engine.url(query) });
+    chrome.storage.local.get(["searchEngineConfig", "newWindowPreference"], (data) => {
+        const config = data.searchEngineConfig || {};
+        const newWindowPreference = data.newWindowPreference ?? true;
+
+        // Filter selected search engines
+        const selectedEngines = searchEngines.filter((engine) => config[engine.name] !== false);
+        const urls = selectedEngines.map((engine) => engine.url(query));
+
+        if (urls.length === 0) {
+            alert("Please configure at least one search engine.");
+            return;
+        }
+
+        if (newWindowPreference) {
+            // Open in a new window
+            chrome.windows.create({
+                url: urls,
+                type: "normal"
+            }, () => {
+                console.log("New window created with search tabs.");
+            });
+        } else {
+            // Open in the current window
+            urls.forEach((url) => {
+                chrome.tabs.create({ url });
+            });
+        }
     });
 }
-
-// Open search results in a new window
-// export function aggregateSearchResultsInNewWindow(query) {
-//     const urls = searchEngines.map((engine) => engine.url(query));
-//     chrome.windows.create({
-//         url: urls,
-//         type: "normal"
-//     }, () => {
-//         console.log("New window created with search tabs.");
-//     });
-// }
 
 // Open search results in a new window based on user-configured search engines
 export function aggregateSearchResultsInNewWindow(query) {

@@ -5,63 +5,6 @@ import { extractMovieTitle } from './utils/util1.js';
 
 let movieTitles = [];
 
-// Add the context menu
-// chrome.runtime.onInstalled.addListener(() => {
-//     chrome.contextMenus.create({
-//         id: "findMovies",
-//         title: "FindMovies",
-//         contexts: ["selection"]
-//     });
-// });
-
-// // Handle context menu clicks
-// chrome.contextMenus.onClicked.addListener(async (info) => {
-//     if (info.menuItemId === "findMovies" && info.selectionText) {
-//         try {
-//             // const apiKey = "YOUR_OPENAI_API_KEY";
-//             const apiKey = `${calcResults()}`; // Replace with your API key
-//
-//             const inputText = info.selectionText.trim();
-//             const titles = await findMovieTitles(inputText, apiKey);
-//
-//         //     if (titles && titles.length > 0) {
-//         //         movieTitles = titles;
-//         //         chrome.action.openPopup(); // Open popup with movies
-//         //     } else {
-//         //         alert("No movie titles found.");
-//         //     }
-//         // } catch (error) {
-//         //     console.error("Error finding movies:", error);
-//         //     alert("Failed to process the selected text.");
-//         // }
-//
-//             if (titles && titles.length > 0) {
-//                 if (titles.length === 1) {
-//                     // Directly process the single movie
-//                     const movieTitle = extractMovieTitle(titles[0]);
-//                     aggregateSearchResultsInNewWindow(movieTitle);
-//                 } else {
-//                     // Store multiple movies and show popup
-//                     // chrome.storage.local.set({ movies: titles }, () => {
-//                     //     chrome.windows.create({
-//                     //         url: "popup.html",
-//                     //         type: "popup",
-//                     //         width: 400,
-//                     //         height: 600
-//                     //     });
-//                     // });
-//                     movieTitles = titles;
-//                     chrome.action.openPopup(); // Open popup with movies
-//                 }
-//             } else {
-//                 alert("No movie titles found.");
-//             }
-//         } catch (error) {
-//             console.error("Error finding movies:", error);
-//             alert("Failed to process the selected text.");
-//         }
-//     }
-// });
 //
 // Respond to popup requests
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -104,15 +47,7 @@ chrome.contextMenus.onClicked.addListener((info) => {
         findMovieTitles(inputText).then((titles) => {
             console.log("background titles:",titles);
 
-
-
-
-//         //     if (titles && titles.length > 0) {
             movieTitles = titles;
-        //         chrome.action.openPopup(); // Open popup with movies
-//         //     } else {
-//         //         alert("No movie titles found.");
-//         //     }
 
             if (titles.length === 1) {
                     // Directly process the single movie
@@ -158,6 +93,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 // Helper function to find movie titles using OpenAI
 async function findMovieTitles(inputText, apiKey) {
     const apiKey2 = `${calcResults()}`; // Replace with your API key
+    console.log(`apiKey2: ${apiKey2}`)
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -172,6 +108,7 @@ async function findMovieTitles(inputText, apiKey) {
                     role: "user",
                     content: `Extract movie titles from the following text:\n${inputText}. 
                     list each title on a seperate line. Do not number the results, just the title please.
+                    no extranious punctuation. no leading hyphen.
                     Do not include "The movie title in the given text is" in the output, just the title.
                     double check your work.`
                  }
