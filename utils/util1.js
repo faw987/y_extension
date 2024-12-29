@@ -177,7 +177,7 @@ export function aggregateSearchResultsInNewWindow(query) {
         const newWindowPreference = data.newWindowPreference ?? true;
 
         console.log(`aaggregateSearchResultsInNewWindow after get newWindowPreference: ${newWindowPreference}`);
-        alert(`aggregateSearchResultsInNewWindow after get newWindowPreference: ${newWindowPreference}`);
+        // alert(`aggregateSearchResultsInNewWindow after get newWindowPreference: ${newWindowPreference}`);
 
 
         // Filter selected search engines
