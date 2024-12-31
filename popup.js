@@ -163,3 +163,28 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 )
+//
+// // Save configuration
+// openMovieTable.addEventListener("click", () => {
+//     // const config = {};
+//     // checkboxContainer.querySelectorAll("input[type='checkbox']").forEach((checkbox) => {
+//     //     const engineName = searchEngines[checkbox.dataset.index].name;
+//     //     config[engineName] = checkbox.checked;
+//     // });
+//     //
+//     // const newWindowPreference = newWindowCheckbox.checked;
+//     //
+//     // console.log(`before store newWindowPreference: ${newWindowPreference}`);
+//     // // alert(`before store newWindowPreference: ${newWindowPreference}`);
+//     //
+//     // chrome.storage.local.set(
+//     //     {searchEngineConfig: config, newWindowPreference},
+//     //     () => {
+//     //         // alert("Configuration saved!");
+//     //         window.close();
+//     //     }
+//     // );
+//     alert();
+//     chrome.tabs.create({ url });
+//
+// });

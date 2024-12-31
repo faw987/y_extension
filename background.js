@@ -47,7 +47,18 @@ chrome.contextMenus.onClicked.addListener((info) => {
         findMovieTitles(inputText).then((titles) => {
             console.log("background titles:",titles);
 
+
+            // const url1=https://www.amazon.com/s?k=I'm%20All%20Right%20Jack%2CLolita%2CDr.%20Strangelove%2CWhat's%20New%20Pussycat%2CCasino%20Royale%2CThe%20Party%2CBeing%20There%2CPink%20Panther
+
+
             movieTitles = titles;
+
+            // const url = `https://www.amazon.com/s?k=${encodeURIComponent(movieTitles)}`;
+            const url1 = `https://faw987.github.io/faw105.html?movietitlelist="=${movieTitles}"`;
+
+            console.log(`url1=${url1}`)
+            chrome.tabs.create({ url: url1 });
+
 
             if (titles.length === 1) {
                     // Directly process the single movie

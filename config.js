@@ -7,13 +7,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     const searchEngines = [
-        { name: "Rotten Tomatoes" },
-        { name: "IMDb" },
-        { name: "Google" },
-        { name: "Netflix" },
-        { name: "Wikipedia" },
-        { name: "Amazon" },
-        { name: "faw98" }
+        {name: "Rotten Tomatoes"},
+        {name: "IMDb"},
+        {name: "Google"},
+        {name: "Netflix"},
+        {name: "Wikipedia"},
+        {name: "Amazon"},
+        {name: "faw98"}
     ];
 
     //     // Load stored configuration
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // alert(`before store newWindowPreference: ${newWindowPreference}`);
 
         chrome.storage.local.set(
-            { searchEngineConfig: config, newWindowPreference },
+            {searchEngineConfig: config, newWindowPreference},
             () => {
                 // alert("Configuration saved!");
                 window.close();
