@@ -54,7 +54,7 @@ chrome.contextMenus.onClicked.addListener((info) => {
             movieTitles = titles;
 
             // const url = `https://www.amazon.com/s?k=${encodeURIComponent(movieTitles)}`;
-            const url1 = `https://faw987.github.io/faw105.html?movietitlelist="=${movieTitles}"`;
+            const url1 = `https://faw987.github.io/faw105.html?movietitlelist==${movieTitles}`;
 
             console.log(`url1=${url1}`)
             chrome.tabs.create({ url: url1 });
