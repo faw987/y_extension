@@ -289,4 +289,20 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(`Movie clicked: ${movieName}`);
         aggregateSearchResultsInNewWindow(movieName);
     }
+
+    //
+// Save configuration
+    openMovieTable.addEventListener("click", () => {
+        chrome.runtime.sendMessage({action: "getMovies"}, (response) => {
+
+            const movies = response.movies || [];
+            console.log("popup movies:", movies);
+            const url1 = `https://faw987.github.io/faw105.html?movietitlelist=${encodeURIComponent(movies)}`;
+            console.log(`url1=${url1}`);
+            chrome.tabs.create({ url: url1 });
+
+        });
+    });
+
 });
+
