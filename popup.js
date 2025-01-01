@@ -92,18 +92,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // Handle Search Button Click
-        // submitQuery.addEventListener("click", () => {
-        //     const userQuery = queryInput.value.trim();
-        //
-        //     if (userQuery) {
-        //         // Process the query
-        //         aggregateSearchResultsInNewWindow(userQuery);
-        //     } else {
-        //         alert("Please enter a valid query.");
-        //     }
-        // });
-
         // Handle GetMoreInfo button click
         getMoreInfo.addEventListener("click", () => {
             const selectedMovies = [];
@@ -164,27 +152,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 )
 //
-// // Save configuration
-// openMovieTable.addEventListener("click", () => {
-//     // const config = {};
-//     // checkboxContainer.querySelectorAll("input[type='checkbox']").forEach((checkbox) => {
-//     //     const engineName = searchEngines[checkbox.dataset.index].name;
-//     //     config[engineName] = checkbox.checked;
-//     // });
-//     //
-//     // const newWindowPreference = newWindowCheckbox.checked;
-//     //
-//     // console.log(`before store newWindowPreference: ${newWindowPreference}`);
-//     // // alert(`before store newWindowPreference: ${newWindowPreference}`);
-//     //
-//     // chrome.storage.local.set(
-//     //     {searchEngineConfig: config, newWindowPreference},
-//     //     () => {
-//     //         // alert("Configuration saved!");
-//     //         window.close();
-//     //     }
-//     // );
-//     alert();
-//     chrome.tabs.create({ url });
-//
-// });
+// Save configuration
+openMovieTable.addEventListener("click", () => {
+    chrome.runtime.sendMessage({action: "getMovies"}, (response) => {
+
+        const movies = response.movies || [];
+        console.log("popup movies:", movies);
+        const url1 = `https://faw987.github.io/faw105.html?movietitlelist=${encodeURIComponent(movies)}`;
+        console.log(`url1=${url1}`);
+        chrome.tabs.create({ url: url1 });
+
+        });
+    });

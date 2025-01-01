@@ -40,25 +40,14 @@ chrome.contextMenus.onClicked.addListener((info) => {
 
         console.log("background inputText:",inputText);
 
-        findMovieActors(inputText).then((actors) => {
-            console.log("background actors:", actors);
-        });
+        // findMovieActors(inputText).then((actors) => {
+        //     console.log("background actors:", actors);
+        // });
 
         findMovieTitles(inputText).then((titles) => {
             console.log("background titles:",titles);
 
-
-            // const url1=https://www.amazon.com/s?k=I'm%20All%20Right%20Jack%2CLolita%2CDr.%20Strangelove%2CWhat's%20New%20Pussycat%2CCasino%20Royale%2CThe%20Party%2CBeing%20There%2CPink%20Panther
-
-
             movieTitles = titles;
-
-            // const url = `https://www.amazon.com/s?k=${encodeURIComponent(movieTitles)}`;
-            const url1 = `https://faw987.github.io/faw105.html?movietitlelist==${movieTitles}`;
-
-            console.log(`url1=${url1}`)
-            chrome.tabs.create({ url: url1 });
-
 
             if (titles.length === 1) {
                     // Directly process the single movie
@@ -146,46 +135,46 @@ async function findMovieTitles(inputText, apiKey) {
 
 
 // Helper function to find movie titles using OpenAI
-async function findMovieActors(inputText, apiKey) {
-    const apiKey2 = `${calcResults()}`; // Replace with your API key
-
-    const earliestYear = 1900;
-    const latestYear = 1960;
-
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${apiKey2}`
-        },
-        body: JSON.stringify({
-            // model: "gpt-3.5-turbo",
-            // model: "gpt-4o-mini",
-            model: "o1-mini",
-            messages: [
-                { role: "system", content: 'Identify all movie actors in the given text.'},
-                {
-                    role: "user",
-                    content:
-                    //     `Extract a list of all movie actors from the following text:\n${inputText}.
-                    // list each actor on a seperate line. Do not number the results, just the actor name please.
-                    // double check your work.`
-                    `list movies with ${inputText} in the cast released between ${earliestYear} and ${latestYear}.
-for each movie provide the: title, release year
-and a one sentence terse pithy and consise summary
-if you can find one or more "star" ratings for the movie, provide all such star rating on a seperate line.`
-                }
-            ],
-            max_tokens: 200
-        })
-    });
-
-    if (!response.ok) {
-        throw new Error(`findMovieActors OpenAI API error: ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    const resultText = data.choices[0]?.message?.content?.trim();
-    console.log(`background resultText ${resultText}`)
-    return resultText ? resultText.split("\n").map((line) => line.trim()) : [];
-};
+// async function findMovieActors(inputText, apiKey) {
+//     const apiKey2 = `${calcResults()}`; // Replace with your API key
+//
+//     const earliestYear = 1900;
+//     const latestYear = 1960;
+//
+//     const response = await fetch("https://api.openai.com/v1/chat/completions", {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json",
+//             Authorization: `Bearer ${apiKey2}`
+//         },
+//         body: JSON.stringify({
+//             // model: "gpt-3.5-turbo",
+//             // model: "gpt-4o-mini",
+//             model: "o1-mini",
+//             messages: [
+//                 { role: "system", content: 'Identify all movie actors in the given text.'},
+//                 {
+//                     role: "user",
+//                     content:
+//                     //     `Extract a list of all movie actors from the following text:\n${inputText}.
+//                     // list each actor on a seperate line. Do not number the results, just the actor name please.
+//                     // double check your work.`
+//                     `list movies with ${inputText} in the cast released between ${earliestYear} and ${latestYear}.
+// for each movie provide the: title, release year
+// and a one sentence terse pithy and consise summary
+// if you can find one or more "star" ratings for the movie, provide all such star rating on a seperate line.`
+//                 }
+//             ],
+//             max_tokens: 200
+//         })
+//     });
+//
+//     if (!response.ok) {
+//         throw new Error(`findMovieActors OpenAI API error: ${response.statusText}`);
+//     }
+//
+//     const data = await response.json();
+//     const resultText = data.choices[0]?.message?.content?.trim();
+//     console.log(`background resultText ${resultText}`)
+//     return resultText ? resultText.split("\n").map((line) => line.trim()) : [];
+//     }
