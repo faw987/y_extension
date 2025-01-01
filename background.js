@@ -93,7 +93,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 // Helper function to find movie titles using OpenAI
 async function findMovieTitles(inputText, apiKey) {
     const apiKey2 = `${calcResults()}`; // Replace with your API key
-    console.log(`apiKey2: ${apiKey2}`)
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: {

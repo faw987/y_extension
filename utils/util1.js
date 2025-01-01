@@ -106,7 +106,7 @@ const searchEngines = [
     { name: "Netflix", url: (query) => `https://www.netflix.com/search?q=${encodeURIComponent(query)}` },
     { name: "Wikipedia", url: (query) => `https://en.wikipedia.org/wiki/Special:Search/${encodeURIComponent(query)}` },
     { name: "Amazon", url: (query) => `https://www.amazon.com/s?k=${encodeURIComponent(query)}` },
-    { name: "faw98", url: (query) => `http://faw987.github.io/faw98?text=${encodeURIComponent(query)}&model=o1-mini&movie=true&submit=true` }
+    { name: "faw98", url: (query) => `http://faw987.github.io/faw98?text=${encodeURIComponent(query)}&model=o1-mini&title=true&submit=true` }
 ];
 
 export function aggregateSearchResults(query) {
