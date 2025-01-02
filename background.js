@@ -91,9 +91,9 @@ chrome.contextMenus.onClicked.addListener((info) => {
             movieActors = actors;
 
             if (actors.length === 1) {
-                // Directly process the single movie
-                const movieTitle = extractMovieTitle(titles[0]);
-                aggregateSearchResultsInNewWindow(movieTitle);
+                // // Directly process the single movie
+                // const movieTitle = extractMovieTitle(titles[0]);
+                // aggregateSearchResultsInNewWindow(movieTitle);
             } else {
                 //     chrome.storage.local.set({movies: titles}, () => {
                 //         chrome.action.openPopup();
