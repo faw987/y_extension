@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
             chrome.runtime.sendMessage({action: "getMovies"}, (response) => {
                 const movies = response.movies || [];
 
-                console.log("response:", response);
+                console.log(">>> getMovies response:", response);
 
                 console.log("popup movies:", movies);
 
@@ -112,6 +112,8 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             chrome.runtime.sendMessage({action: "getActors"}, (response) => {
                 const actors = response.actors || [];
+
+                console.log(">>> getActors response:", response);
 
                 console.log("popup actors:", actors);
 
