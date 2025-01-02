@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (actors.length === 0) {
                     moviesList.innerHTML = "<p>No movies found.</p>";
                 } else {
-                    buildHtmlActors(actors, actorList);
+                    buildHtmlActors(actors, moviesList);
                     getMoreInfo.classList.remove("hidden");
                 }
             });
