@@ -100,6 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let mode = "";
             chrome.storage.local.get("mode", (data) => {
                 mode = data.mode;
+                console.log(">>>>>>>>>>>>>>>>>> data:", data);
             });
 
             console.log(">>> mode:", mode);
