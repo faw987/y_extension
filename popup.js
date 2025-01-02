@@ -108,6 +108,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     getMoreInfo.classList.remove("hidden");
                 }
             });
+            chrome.runtime.sendMessage({action: "getActors"}, (response) => {
+                const actors = response.actors || [];
+
+                console.log("popup actors:", actors);
+
+                if (actors.length === 0) {
+                    moviesList.innerHTML = "<p>No movies found.</p>";
+                } else {
+                    buildHtmlActors(actors, actorList);
+                    getMoreInfo.classList.remove("hidden");
+                }
+            });
         }
     });
 
