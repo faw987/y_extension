@@ -239,10 +239,7 @@ async function findMovieActors(inputText, apiKey) {
                     //     `Extract a list of all movie actors from the following text:\n${inputText}.
                     // list each actor on a seperate line. Do not number the results, just the actor name please.
                     // double check your work.`
-                    `list movies with ${inputText} in the cast released between ${earliestYear} and ${latestYear}.
-for each movie provide the: title, release year
-and a one sentence terse pithy and consise summary
-if you can find one or more "star" ratings for the movie, provide all such star rating on a seperate line.`
+                    `list all actors and actresses mentioned here: "${inputText}".`
                 }
             ],
             max_tokens: 200
