@@ -230,7 +230,7 @@ async function findMovieActors(inputText, apiKey) {
         body: JSON.stringify({
             // model: "gpt-3.5-turbo",
             // model: "gpt-4o-mini",
-            model: "o1-mini",
+            model: "gpt-3.5-turbo",
             messages: [
                 { role: "system", content: 'Identify all movie actors in the given text.'},
                 {
