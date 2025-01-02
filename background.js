@@ -99,7 +99,7 @@ chrome.contextMenus.onClicked.addListener((info) => {
                 //         chrome.action.openPopup();
                 // });
                 // Store multiple movies and show popup
-                console.log("local set next titles:",titles);
+                console.log("local set next actors:",actors);
 
                 chrome.storage.local.set({ actors: actors }, () => {
                     chrome.windows.create({
