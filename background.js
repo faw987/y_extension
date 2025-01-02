@@ -22,6 +22,14 @@ chrome.runtime.onInstalled.addListener(() => {
 
 });
 
+
+chrome.storage.local.set(
+    {searchEngineConfig: config, newWindowPreference},
+    () => {
+        // alert("Configuration saved!");
+        window.close();
+    }
+);
 //
 // Respond to popup requests
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
