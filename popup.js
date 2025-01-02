@@ -98,12 +98,10 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (context === "contextMenu") {
 
             chrome.storage.local.get("mode", (data) => {
-                const mode = data.mode);
+                const mode = data.mode;
             });
 
-
             console.log(">>> mode:", mode);
-
 
             chrome.runtime.sendMessage({action: "getMovies"}, (response) => {
                 const movies = response.movies || [];
