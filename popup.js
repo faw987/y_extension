@@ -99,6 +99,8 @@ document.addEventListener("DOMContentLoaded", () => {
             chrome.runtime.sendMessage({action: "getMovies"}, (response) => {
                 const movies = response.movies || [];
 
+                console.log("response:", response);
+
                 console.log("popup movies:", movies);
 
                 if (movies.length === 0) {
