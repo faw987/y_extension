@@ -111,6 +111,47 @@ chrome.contextMenus.onClicked.addListener((info) => {
             };
         });
     };
+
+
+    if (info.menuItemId === "movieActor" && info.selectionText) {
+        invocationContext = "contextMenu"; // Update context
+        const inputText = info.selectionText.trim();
+
+        console.log("background inputText:",inputText);
+
+        findMovieActors(inputText).then((actors) => {
+            console.log("background actors:", actors);
+        });
+
+        // findMovieTitles(inputText).then((titles) => {
+        //     console.log("background titles:",titles);
+        //
+        //     movieTitles = titles;
+        //
+        //     if (titles.length === 1) {
+        //         // Directly process the single movie
+        //         const movieTitle = extractMovieTitle(titles[0]);
+        //         aggregateSearchResultsInNewWindow(movieTitle);
+        //     } else {
+        //         //     chrome.storage.local.set({movies: titles}, () => {
+        //         //         chrome.action.openPopup();
+        //         // });
+        //         // Store multiple movies and show popup
+        //         console.log("local set next titles:",titles);
+        //
+        //         chrome.storage.local.set({ movies: titles }, () => {
+        //             chrome.windows.create({
+        //                 url: "popup.html",
+        //                 type: "popup",
+        //                 width: 400,
+        //                 height: 600
+        //             });
+        //         });
+        //     };
+        // });
+    };
+
+
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
