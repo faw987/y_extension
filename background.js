@@ -4,6 +4,7 @@ import { logInfo, logError } from './utils/logger.js';
 import { extractMovieTitle } from './utils/util1.js';
 
 let movieTitles = [];
+let movieActors = [];
 
 // Add context menu items
 chrome.runtime.onInstalled.addListener(() => {
@@ -86,24 +87,55 @@ chrome.contextMenus.onClicked.addListener((info) => {
 
         findMovieActors(inputText).then((actors) => {
             console.log("background actors:", actors);
+
+            movieActors = actors;
+
+            if (actors.length === 1) {
+                // Directly process the single movie
+                const movieTitle = extractMovieTitle(titles[0]);
+                aggregateSearchResultsInNewWindow(movieTitle);
+            } else {
+                //     chrome.storage.local.set({movies: titles}, () => {
+                //         chrome.action.openPopup();
+                // });
+                // Store multiple movies and show popup
+                console.log("local set next titles:",titles);
+
+                chrome.storage.local.set({ actors: actors }, () => {
+                    chrome.windows.create({
+                        url: "popup.html",
+                        type: "popup",
+                        width: 400,
+                        height: 600
+                    });
+                });
+            };
         });
     };
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.action === "getContext") {
-        sendResponse({ context: invocationContext });
-        // Reset context to default
-        invocationContext = "toolbar";
-    } else if (message.action === "getMovies") {
-        console.log("background getMovies");
-        chrome.storage.local.get("movies", (data) => {
-            sendResponse({ movies: data.movies || [] });
-            console.log("background data.movies:",data.movies);
-        });
-        return true; // Keep message channel open for async response
+        if (message.action === "getContext") {
+            sendResponse({context: invocationContext});
+            // Reset context to default
+            invocationContext = "toolbar";
+        } else if (message.action === "getMovies") {
+            console.log("background getMovies");
+            chrome.storage.local.get("movies", (data) => {
+                sendResponse({movies: data.movies || []});
+                console.log("background data.movies:", data.movies);
+            });
+            return true; // Keep message channel open for async response
+        } else if (message.action === "getActors") {
+            console.log("background getActors");
+            chrome.storage.local.get("actors", (data) => {
+                sendResponse({actors: data.actors || []});
+                console.log("background data.actors:", data.actors);
+            });
+            return true; // Keep message channel open for async response
+        }
     }
-});
+);
 
 
 
