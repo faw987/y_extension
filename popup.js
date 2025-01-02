@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    function buildHtml(movies, moviesList) {
+    function buildHtmlMovies(movies, moviesList) {
         movies.forEach((movie) => {
             const item = document.createElement("div");
             item.className = "movie-item";
@@ -33,6 +33,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const link = document.createElement("a");
             link.textContent = movie;
+            link.href = "#";
+            link.addEventListener("click", () => {
+                handleMovieClick(extractMovieTitle(movie));
+            });
+
+            item.appendChild(checkbox);
+            item.appendChild(link);
+
+            moviesList.appendChild(item);
+        });
+    }
+
+    function buildHtmlActors(actors, moviesList) {
+        actors.forEach((actor) => {
+            const item = document.createElement("div");
+            item.className = "movie-item";
+
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.value = actor;
+
+            const link = document.createElement("a");
+            link.textContent = actor;
             link.href = "#";
             link.addEventListener("click", () => {
                 handleMovieClick(extractMovieTitle(movie));
@@ -81,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (movies.length === 0) {
                     moviesList.innerHTML = "<p>No movies found.</p>";
                 } else {
-                    buildHtml(movies, moviesList);
+                    buildHtmlMovies(movies, moviesList);
                     getMoreInfo.classList.remove("hidden");
                 }
             });
