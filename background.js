@@ -19,31 +19,7 @@ chrome.runtime.onInstalled.addListener(() => {
         contexts: ["selection"]
     });
 
-    // chrome.contextMenus.create({
-    //     id: "processList",
-    //     title: "Process List",
-    //     contexts: ["selection"]
-    // });
 });
-
-// Handle context menu clicks
-// chrome.contextMenus.onClicked.addListener((info, tab) => {
-//     const selectedText = info.selectionText ? info.selectionText.trim() : null;
-//     // console.log(`selectedText=${selectedText}`);
-//     // alert('selectedText=${selectedText}');
-//     // showNotification("selected", 'selectedText=${selectedText}');
-//     showNotification("selected", 'selectedText');
-//
-//     if (selectedText) {
-//         if (info.menuItemId === "movieTitle") {
-//             console.log("processList",selectedText);
-//             const titles = processMovieList(selectedText); // Call Process List feature
-//             console.log("titles",titles);
-//         } else if (info.menuItemId === "MovieActor") {
-//             aggregateSearchResults(selectedText);
-//         }
-//     }
-// });
 
 //
 // Respond to popup requests
@@ -65,14 +41,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 let invocationContext = "toolbar"; // Default to toolbar
 
-// chrome.runtime.onInstalled.addListener(() => {
-//     chrome.contextMenus.create({
-//         id: "findMovies",
-//         title: "FindMovies",
-//         contexts: ["selection"]
-//     });
-// });
-
 chrome.contextMenus.onClicked.addListener((info) => {
     if (info.menuItemId === "movieTitle" && info.selectionText) {
         invocationContext = "contextMenu"; // Update context
@@ -80,9 +48,6 @@ chrome.contextMenus.onClicked.addListener((info) => {
 
         console.log("background inputText:",inputText);
 
-        // findMovieActors(inputText).then((actors) => {
-        //     console.log("background actors:", actors);
-        // });
 
         findMovieTitles(inputText).then((titles) => {
             console.log("background titles:",titles);
@@ -122,36 +87,7 @@ chrome.contextMenus.onClicked.addListener((info) => {
         findMovieActors(inputText).then((actors) => {
             console.log("background actors:", actors);
         });
-
-        // findMovieTitles(inputText).then((titles) => {
-        //     console.log("background titles:",titles);
-        //
-        //     movieTitles = titles;
-        //
-        //     if (titles.length === 1) {
-        //         // Directly process the single movie
-        //         const movieTitle = extractMovieTitle(titles[0]);
-        //         aggregateSearchResultsInNewWindow(movieTitle);
-        //     } else {
-        //         //     chrome.storage.local.set({movies: titles}, () => {
-        //         //         chrome.action.openPopup();
-        //         // });
-        //         // Store multiple movies and show popup
-        //         console.log("local set next titles:",titles);
-        //
-        //         chrome.storage.local.set({ movies: titles }, () => {
-        //             chrome.windows.create({
-        //                 url: "popup.html",
-        //                 type: "popup",
-        //                 width: 400,
-        //                 height: 600
-        //             });
-        //         });
-        //     };
-        // });
     };
-
-
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
