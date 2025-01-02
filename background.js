@@ -31,6 +31,8 @@ chrome.runtime.onInstalled.addListener(() => {
 //     }
 // );
 //
+
+
 // Respond to popup requests
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "getMovies") {
