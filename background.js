@@ -30,11 +30,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         sendResponse({ movies: movieTitles });
         chrome.storage.local.set({ mode: "movies" }, () => {});
         console.log("sendResponse({ movies: movieTitles - AFTER", movieTitles);
-    } else  if (message.action === "getACtors") {
-        console.log("sendResponse({ movies: movieTitles - NEXT", movieActors);
+    } else  if (message.action === "getActors") {
+        console.log("sendResponse({ movies: getActors - NEXT", movieActors);
         sendResponse({ actors: movieActors });
         chrome.storage.local.set({ mode: "actors" }, () => {});
-        console.log("sendResponse({ movies: movieTitles - AFTER", movieActors);
+        console.log("sendResponse({ movies: getActors - AFTER", movieActors);
     } else if (message.action === "processMovies") {
         console.log("Processing movies:", message.movies);
         // Logic for opening tabs or fetching more info will go here
