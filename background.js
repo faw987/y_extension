@@ -28,10 +28,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "getMovies") {
         console.log("sendResponse({ movies: movieTitles - NEXT", movieTitles);
         sendResponse({ movies: movieTitles });
+        chrome.storage.local.set({ mode: movies }, () => {});
         console.log("sendResponse({ movies: movieTitles - AFTER", movieTitles);
     } else  if (message.action === "getACtors") {
         console.log("sendResponse({ movies: movieTitles - NEXT", movieActors);
         sendResponse({ actors: movieActors });
+        chrome.storage.local.set({ mode: actors }, () => {});
         console.log("sendResponse({ movies: movieTitles - AFTER", movieActors);
     } else if (message.action === "processMovies") {
         console.log("Processing movies:", message.movies);

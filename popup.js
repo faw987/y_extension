@@ -96,6 +96,15 @@ document.addEventListener("DOMContentLoaded", () => {
         if (context === "toolbar") {
             inputContainer.classList.remove("hidden");
         } else if (context === "contextMenu") {
+
+            chrome.storage.local.get("mode", (data) => {
+                const mode = data.mode);
+            });
+
+
+            console.log(">>> mode:", mode);
+
+
             chrome.runtime.sendMessage({action: "getMovies"}, (response) => {
                 const movies = response.movies || [];
 
@@ -118,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("popup actors:", actors);
 
                 if (actors.length === 0) {
-                    moviesList.innerHTML = "<p>No movies found.</p>";
+                    moviesList.innerHTML = "<p>No actors found.</p>";
                 } else {
                     buildHtmlActors(actors, moviesList);
                     getMoreInfo.classList.remove("hidden");
