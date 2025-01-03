@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 ;
 
-                if (mmode == 'actor') {
+                if (mmode == 'actors') {
                     chrome.runtime.sendMessage({action: "getActors"}, (response) => {
                         const actors = response.actors || [];
 
