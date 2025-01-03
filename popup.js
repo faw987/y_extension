@@ -112,49 +112,45 @@ document.addEventListener("DOMContentLoaded", () => {
                 mmode = data.mode;
                 console.log(">>>>>>>>>>>>>>>>>> data:", data);
                 console.log(">>>>>>>>>>>>>>>>>> mmode:", mmode);
+                if (mmode == 'movies') {
+                    chrome.runtime.sendMessage({action: "getMovies"}, (response) => {
+                        const movies = response.movies || [];
+
+                        console.log(">>> getMovies response:", response);
+
+                        console.log("popup movies:", movies);
+
+                        if (movies.length === 0) {
+                            moviesList.innerHTML = "<p>No movies found.</p>";
+                        } else {
+                            buildHtmlMovies(movies, moviesList);
+                            getMoreInfo.classList.remove("hidden");
+                        }
+                    });
+                }
+                ;
+
+                if (mmode == 'actor') {
+                    chrome.runtime.sendMessage({action: "getActors"}, (response) => {
+                        const actors = response.actors || [];
+
+                        console.log(">>> getActors response:", response);
+
+                        console.log("popup actors:", actors);
+
+                        if (actors.length === 0) {
+                            moviesList.innerHTML = "<p>No actors found.</p>";
+                        } else {
+                            buildHtmlActors(actors, moviesList);
+                            getMoreInfo.classList.remove("hidden");
+                        }
+                    });
+                }
+                ;
             });
 
-            chrome.storage.local.get("mode", (data) => {
-                console.log(">>>>>>   chrome.storage.local.get mode:", data.mode);
-            });
-
-            console.log(">>> mmode:", mmode);
-
-            if (mmode == 'movies') {
-                chrome.runtime.sendMessage({action: "getMovies"}, (response) => {
-                    const movies = response.movies || [];
-
-                    console.log(">>> getMovies response:", response);
-
-                    console.log("popup movies:", movies);
-
-                    if (movies.length === 0) {
-                        moviesList.innerHTML = "<p>No movies found.</p>";
-                    } else {
-                        buildHtmlMovies(movies, moviesList);
-                        getMoreInfo.classList.remove("hidden");
-                    }
-                });
-            }
-            ;
-
-            if (mmode == 'actor') {
-                chrome.runtime.sendMessage({action: "getActors"}, (response) => {
-                    const actors = response.actors || [];
-
-                    console.log(">>> getActors response:", response);
-
-                    console.log("popup actors:", actors);
-
-                    if (actors.length === 0) {
-                        moviesList.innerHTML = "<p>No actors found.</p>";
-                    } else {
-                        buildHtmlActors(actors, moviesList);
-                        getMoreInfo.classList.remove("hidden");
-                    }
-                });
-            };
-        };
+        }
+        ;
     });
 
     // Handle Set All Button Click
