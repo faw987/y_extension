@@ -67,6 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const link = document.createElement("a");
             link.textContent = actor;
             link.href = "#";
+
             // link.addEventListener("click", () => {
             //     handleMovieClick(extractMovieTitle(movie));
             // });

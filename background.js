@@ -32,18 +32,6 @@ chrome.storage.local.set({ mode: 'uninitialized' }, () => {
     }
 });
 
-
-//
-// chrome.storage.local.set(
-//     {searchEngineConfig: config, newWindowPreference},
-//     () => {
-//         // alert("Configuration saved!");
-//         window.close();
-//     }
-// );
-//
-
-
 // Respond to popup requests
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "getMovies") {
@@ -135,7 +123,7 @@ chrome.contextMenus.onClicked.addListener((info) => {
                 // // Directly process the single movie
                 // const movieTitle = extractMovieTitle(titles[0]);
                 // aggregateSearchResultsInNewWindow(movieTitle);
-                alert(`There are exactly one actor. no further processing at this time`)
+                alert(`There are exactly one actor. no further processing at this time`);
             } else {
 
                 console.log("local set next actors:", actors);
