@@ -47,7 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     const myTime = getCurrentTime();
-    document.title = "Movie Magic 0.93 - " + myTime ;
+    const myRelease = "0.93";
+    document.title = `Movie Magic ${myRelease} - ${myTime} - ???` ;
 
     chrome.storage.local.get("test", (data) => {
         console.log("chrome.storage.local.get test:", data.test);
@@ -127,6 +128,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function paintDisplay(mmode) {
+
+        document.title = `Movie Magic ${myRelease} - ${myTime} - ${mode}` ;
+
         if (mmode == 'movies') {
             chrome.runtime.sendMessage({action: "getMovies"}, (response) => {
                 const movies = response.movies || [];
