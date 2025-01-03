@@ -216,6 +216,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Save configuration
     resetTablesButton.addEventListener("click", () => {
 
+        console.log("resetTablesButton clicked");
+
         chrome.runtime.sendMessage({action: "resetTables"}, () => {
 
             // Access the div element by its id
@@ -226,6 +228,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Clear the content of the div
             moviesList.replaceChildren();
+
+            console.log("resetTablesButton sendMessage complete");
+
+
         });
     });
 
