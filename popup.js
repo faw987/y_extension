@@ -217,9 +217,9 @@ document.addEventListener("DOMContentLoaded", () => {
     resetTablesButton.addEventListener("click", () => {
 
         chrome.runtime.sendMessage({action: "resetTables"}, () => {
-            const movies = response.movies || [];
-
-            console.log(">>> getMovies response:", response);
+            // const movies = response.movies || [];
+            //
+            // console.log(">>> getMovies response:", response);
 
             // Access the div element by its id
             const moviesList = document.getElementById('moviesList');
