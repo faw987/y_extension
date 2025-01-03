@@ -106,10 +106,11 @@ document.addEventListener("DOMContentLoaded", () => {
             inputContainer.classList.remove("hidden");
         } else if (context === "contextMenu") {
 
-            let mmode = "";
+            // let mmode = "";
             chrome.storage.local.get("mode", (data) => {
-                mmode = data.mode;
+                const mmode = data.mode;
                 console.log(">>>>>>>>>>>>>>>>>> data:", data);
+                console.log(">>>>>>>>>>>>>>>>>> mmode:", mmode);
             });
 
             chrome.storage.local.get("mode", (data) => {
