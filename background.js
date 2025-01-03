@@ -45,7 +45,7 @@ chrome.storage.local.set({ mode: 'uninitialized' }, () => {
 
 
 // Respond to popup requests
-chrome.runtime.onMessage((message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "getMovies") {
         console.log("sendResponse({ movies: movieTitles - NEXT", movieTitles);
         sendResponse({ movies: movieTitles });
@@ -69,7 +69,7 @@ chrome.runtime.onMessage((message, sender, sendResponse) => {
 
 let invocationContext = "toolbar"; // Default to toolbar
 
-chrome.contextMenus.onClicked((info) => {
+chrome.contextMenus.onClicked.addListener((info) => {
     if (info.menuItemId === "movieTitle" && info.selectionText) {
         invocationContext = "contextMenu"; // Update context
         const inputText = info.selectionText.trim();
@@ -155,7 +155,7 @@ chrome.contextMenus.onClicked((info) => {
     ;
 });
 
-chrome.runtime.onMessage((message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         if (message.action === "getContext") {
             sendResponse({context: invocationContext});
             // Reset context to default
