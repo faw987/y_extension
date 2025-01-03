@@ -241,6 +241,10 @@ document.addEventListener("DOMContentLoaded", () => {
             // Clear the content of the div
             moviesList.replaceChildren();
 
+
+            // Trigger a reflow by accessing the offsetHeight property
+            void moviesList.offsetHeight;
+
             // console.log("resetTablesButton sendMessage complete");
             alert("resetTablesButton after send 1 - done");
 
