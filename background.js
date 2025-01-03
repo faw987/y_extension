@@ -254,7 +254,9 @@ async function findMovieActors(inputText, apiKey) {
                     //     `Extract a list of all movie actors from the following text:\n${inputText}.
                     // list each actor on a seperate line. Do not number the results, just the actor name please.
                     // double check your work.`
-                    `list all actors and actresses mentioned here: "${inputText}".`
+                    `list all actors and actresses mentioned here: "${inputText}".
+                    each actors name should be listed on a seperate line with no additional added information.
+                    just the actors name of a line by itself. no hyphen, asterisk or number.`
                 }
             ],
             max_tokens: 200

@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Save configuration
     openActorTable.addEventListener("click", () => {
         chrome.runtime.sendMessage({action: "getActors"}, (response) => {
-            const actors = response.movies || [];
+            const actors = response.actors || [];
             console.log("popup actors:", actors);
             const url1 = `https://faw987.github.io/faw107.html?movieActorlist=${encodeURIComponent(actors)}`;
             console.log(`url1=${url1}`);
