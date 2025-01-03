@@ -216,7 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Save configuration
     resetTablesButton.addEventListener("click", () => {
 
-        console.log("resetTablesButton clicked");
+        // console.log("resetTablesButton clicked");
 
         chrome.runtime.sendMessage({action: "resetTables"}, () => {
 
@@ -229,7 +229,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Clear the content of the div
             moviesList.replaceChildren();
 
-            console.log("resetTablesButton sendMessage complete");
+            // console.log("resetTablesButton sendMessage complete");
 
 
         });
