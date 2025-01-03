@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const configureButton = document.getElementById("configureButton");
     const setAllButton = document.getElementById("setAll"); // Added Set All button
     const clearAllButton = document.getElementById("clearAll"); // Added Clear All button
+    const resetTablesButton = document.getElementById("resetTables"); // Added Clear All button
 
     configureButton.addEventListener("click", () => {
         chrome.windows.create({
@@ -194,7 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("popup movies:", movies);
             const url1 = `https://faw987.github.io/faw105.html?movietitlelist=${encodeURIComponent(movies)}`;
             console.log(`url1=${url1}`);
-            chrome.tabs.create({ url: url1 });
+            chrome.tabs.create({url: url1});
 
         });
     });
@@ -207,11 +208,20 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("popup actors:", actors);
             const url1 = `https://faw987.github.io/faw107.html?movieActorlist=${encodeURIComponent(actors)}`;
             console.log(`url1=${url1}`);
-            chrome.tabs.create({ url: url1 });
+            chrome.tabs.create({url: url1});
 
         });
     });
 
+    // Save configuration
+    resetTablesButton.addEventListener("click", () => {
+        chrome.runtime.sendMessage({action: "getActors"}, (response) => {
+
+            chrome.storage.local.set({movies: ''}, () => {});
+            chrome.storage.local.set({actors: ''}, () => {});
+
+        });
+    });
 
 });
 
