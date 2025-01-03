@@ -23,6 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    document.title = "frank";
+
     chrome.storage.local.get("test", (data) => {
         console.log("chrome.storage.local.get test:", data.test);
     });
