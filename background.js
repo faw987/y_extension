@@ -180,6 +180,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             chrome.storage.local.set({actors: ''}, () => {});
             movieTitles = [];
             movieActors = [];
+
             return true; // Keep message channel open for async response
         }
     }

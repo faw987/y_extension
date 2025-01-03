@@ -221,6 +221,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             console.log(">>> getMovies response:", response);
 
+            // Access the div element by its id
+            const moviesList = document.getElementById('moviesList');
+            // Clear the content of the div
+            moviesList.replaceChildren();
 
         });
 
