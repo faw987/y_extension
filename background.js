@@ -21,7 +21,15 @@ chrome.runtime.onInstalled.addListener(() => {
     });
 
     chrome.storage.local.set({ test: "myData2" }, () => {});
-    chrome.storage.local.set({ mode: "uninitialized" }, () => {});
+    // chrome.storage.local.set({ mode: "uninitialized" }, () => {});
+
+    chrome.storage.local.set({ mode: 'uninitialized' }, () => {
+        if (chrome.runtime.lastError) {
+            console.error('Error setting value for key=mode:', chrome.runtime.lastError);
+        } else {
+            console.log('Value set successfully key=mode');
+        }
+    });
 
 });
 
@@ -41,12 +49,32 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "getMovies") {
         console.log("sendResponse({ movies: movieTitles - NEXT", movieTitles);
         sendResponse({ movies: movieTitles });
-        chrome.storage.local.set({ mode: "movies" }, () => {});
+        // chrome.storage.local.set({ mode: "movies" }, () => {});
+
+        chrome.storage.local.set({ mode: 'movies' }, () => {
+            if (chrome.runtime.lastError) {
+                console.error('Error setting value for key=mode value=movies:', chrome.runtime.lastError);
+            } else {
+                console.log('Value set successfully key=mode value=movies');
+            }
+        });
+
+
         console.log("sendResponse({ movies: movieTitles - AFTER", movieTitles);
     } else  if (message.action === "getActors") {
         console.log("sendResponse({ movies: getActors - NEXT", movieActors);
         sendResponse({ actors: movieActors });
-        chrome.storage.local.set({ mode: "actors" }, () => {});
+        // chrome.storage.local.set({ mode: "actors" }, () => {});
+
+        chrome.storage.local.set({ mode: 'actors' }, () => {
+            if (chrome.runtime.lastError) {
+                console.error('Error setting value for key=mode value=actors:', chrome.runtime.lastError);
+            } else {
+                console.log('Value set successfully key=mode value=actors');
+            }
+        });
+
+
         console.log("sendResponse({ movies: getActors - AFTER", movieActors);
     } else if (message.action === "processMovies") {
         console.log("Processing movies:", message.movies);
