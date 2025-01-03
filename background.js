@@ -174,6 +174,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 console.log("background data.actors:", data.actors);
             });
             return true; // Keep message channel open for async response
+        } else if (message.action === "resetTables") {
+            console.log("background resetTables");
+            chrome.storage.local.set({movies: ''}, () => {});
+            chrome.storage.local.set({actors: ''}, () => {});
+            movieTitles = [];
+            movieActors = [];
+            return true; // Keep message channel open for async response
         }
     }
 );

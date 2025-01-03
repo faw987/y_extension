@@ -215,8 +215,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Save configuration
     resetTablesButton.addEventListener("click", () => {
-            chrome.storage.local.set({movies: ''}, () => {});
-            chrome.storage.local.set({actors: ''}, () => {});
+
+        chrome.runtime.sendMessage({action: "resetTables"}, () => {
+            const movies = response.movies || [];
+
+            console.log(">>> getMovies response:", response);
+
+
+        });
+
     });
 
 });
