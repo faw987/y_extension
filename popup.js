@@ -3,6 +3,30 @@ import {logInfo, logError} from './utils/logger.js';
 import {aggregateSearchResultsInNewWindow, calcResults} from './utils/util1.js';
 import {extractMovieTitle} from './utils/util1.js';
 
+function getCurrentTime() {
+    // Get the current date and time
+    const now = new Date();
+
+    // Format the time in a 12-hour format with AM/PM
+    const options = {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+        timeZoneName: 'short'
+    };
+
+    const formatter = new Intl.DateTimeFormat('en-US', options);
+    const formattedTime = formatter.format(now);
+
+    // Extract timezone abbreviation from the formatted string
+    const [time, tz] = formattedTime.split(' ');
+
+    // Return in "4:40 PM EST" format
+    return `${time} ${tz}`;
+};
+
+console.log(getCurrentTime());
+
 document.addEventListener("DOMContentLoaded", () => {
     const inputContainer = document.getElementById("inputContainer");
     const queryInput = document.getElementById("queryInput");
@@ -23,7 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    document.title = "frank";
+    time = getCurrentTime();
+    document.title = "Movie Magic 0.93 - " + time ;
 
     chrome.storage.local.get("test", (data) => {
         console.log("chrome.storage.local.get test:", data.test);
