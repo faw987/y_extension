@@ -22,6 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    chrome.storage.local.get("test", (data) => {
+        console.log("chrome.storage.local.get test:", data.test);
+    });
+
+
     function buildHtmlMovies(movies, moviesList) {
         movies.forEach((movie) => {
             const item = document.createElement("div");

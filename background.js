@@ -20,6 +20,8 @@ chrome.runtime.onInstalled.addListener(() => {
         contexts: ["selection"]
     });
 
+    chrome.storage.local.set({ test: "myData1" }, () => {});
+
 });
 
 //
