@@ -215,12 +215,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Save configuration
     resetTablesButton.addEventListener("click", () => {
-        chrome.runtime.sendMessage({action: "getActors"}, (response) => {
-
             chrome.storage.local.set({movies: ''}, () => {});
             chrome.storage.local.set({actors: ''}, () => {});
-
-        });
     });
 
 });
