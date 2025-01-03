@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const configureButton = document.getElementById("configureButton");
     const setAllButton = document.getElementById("setAll"); // Added Set All button
     const clearAllButton = document.getElementById("clearAll"); // Added Clear All button
-    const resetTablesButton = document.getElementById("resetTables"); // Added Clear All button
+    const resetTablesButton = document.getElementById("resetTablesButton"); // Added Clear All button
 
     configureButton.addEventListener("click", () => {
         chrome.windows.create({
@@ -212,6 +212,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         });
     });
+
+
+    configureButton.addEventListener("click", () => {
+        chrome.windows.create({
+            url: "config.html",
+            type: "popup",
+            width: 350,
+            height: 400
+        });
+    });
+
 
     // Save configuration
     resetTablesButton.addEventListener("click", () => {
