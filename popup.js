@@ -106,9 +106,9 @@ document.addEventListener("DOMContentLoaded", () => {
             inputContainer.classList.remove("hidden");
         } else if (context === "contextMenu") {
 
-            let mode = "";
+            let mmode = "";
             chrome.storage.local.get("mode", (data) => {
-                let mode = data.mode;
+                mmode = data.mode;
                 console.log(">>>>>>>>>>>>>>>>>> data:", data);
             });
 
@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log(">>>>>>   chrome.storage.local.get mode:", data.mode);
             });
 
-            console.log(">>> mode:", mode);
+            console.log(">>> mmode:", mmode);
 
             chrome.runtime.sendMessage({action: "getMovies"}, (response) => {
                 const movies = response.movies || [];
