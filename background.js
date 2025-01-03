@@ -21,6 +21,7 @@ chrome.runtime.onInstalled.addListener(() => {
     });
 
     chrome.storage.local.set({ test: "myData2" }, () => {});
+    chrome.storage.local.set({ mode: "uninitialized" }, () => {});
 
 });
 

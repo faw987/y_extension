@@ -26,6 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("chrome.storage.local.get test:", data.test);
     });
 
+    chrome.storage.local.get("mode", (data) => {
+        console.log("EXTRA          chrome.storage.local.get mode:", data.mode);
+    });
+
 
     function buildHtmlMovies(movies, moviesList) {
         movies.forEach((movie) => {
@@ -104,8 +108,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
             let mode = "";
             chrome.storage.local.get("mode", (data) => {
-                mode = data.mode;
+                let mode = data.mode;
                 console.log(">>>>>>>>>>>>>>>>>> data:", data);
+            });
+
+            chrome.storage.local.get("mode", (data) => {
+                console.log(">>>>>>   chrome.storage.local.get mode:", data.mode);
             });
 
             console.log(">>> mode:", mode);
