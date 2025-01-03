@@ -99,7 +99,45 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Determine the context: toolbar or context menu
+    function paintDisplay(mmode) {
+        if (mmode == 'movies') {
+            chrome.runtime.sendMessage({action: "getMovies"}, (response) => {
+                const movies = response.movies || [];
+
+                console.log(">>> getMovies response:", response);
+
+                console.log("popup movies:", movies);
+
+                if (movies.length === 0) {
+                    moviesList.innerHTML = "<p>No movies found.</p>";
+                } else {
+                    buildHtmlMovies(movies, moviesList);
+                    getMoreInfo.classList.remove("hidden");
+                }
+            });
+        }
+        ;
+
+        if (mmode == 'actors') {
+            chrome.runtime.sendMessage({action: "getActors"}, (response) => {
+                const actors = response.actors || [];
+
+                console.log(">>> getActors response:", response);
+
+                console.log("popup actors:", actors);
+
+                if (actors.length === 0) {
+                    moviesList.innerHTML = "<p>No actors found.</p>";
+                } else {
+                    buildHtmlActors(actors, moviesList);
+                    getMoreInfo.classList.remove("hidden");
+                }
+            });
+        }
+        ;
+    }
+
+// Determine the context: toolbar or context menu
     chrome.runtime.sendMessage({action: "getContext"}, (response) => {
         const context = response.context;
 
@@ -112,41 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 mmode = data.mode;
                 console.log(">>>>>>>>>>>>>>>>>> data:", data);
                 console.log(">>>>>>>>>>>>>>>>>> mmode:", mmode);
-                if (mmode == 'movies') {
-                    chrome.runtime.sendMessage({action: "getMovies"}, (response) => {
-                        const movies = response.movies || [];
-
-                        console.log(">>> getMovies response:", response);
-
-                        console.log("popup movies:", movies);
-
-                        if (movies.length === 0) {
-                            moviesList.innerHTML = "<p>No movies found.</p>";
-                        } else {
-                            buildHtmlMovies(movies, moviesList);
-                            getMoreInfo.classList.remove("hidden");
-                        }
-                    });
-                }
-                ;
-
-                if (mmode == 'actors') {
-                    chrome.runtime.sendMessage({action: "getActors"}, (response) => {
-                        const actors = response.actors || [];
-
-                        console.log(">>> getActors response:", response);
-
-                        console.log("popup actors:", actors);
-
-                        if (actors.length === 0) {
-                            moviesList.innerHTML = "<p>No actors found.</p>";
-                        } else {
-                            buildHtmlActors(actors, moviesList);
-                            getMoreInfo.classList.remove("hidden");
-                        }
-                    });
-                }
-                ;
+                paintDisplay(mmode);
             });
 
         }
@@ -250,6 +254,14 @@ document.addEventListener("DOMContentLoaded", () => {
             // console.log("resetTablesButton sendMessage complete");
             alert("resetTablesButton after send 1 - done");
 
+            let mmode = "";
+
+            chrome.storage.local.get("mode", (data) => {
+                mmode = data.mode;
+                console.log(">>>>>>>>>>>>>>>>>> data:", data);
+                console.log(">>>>>>>>>>>>>>>>>> mmode:", mmode);
+                paintDisplay(mmode);
+            });
 
         });
 
