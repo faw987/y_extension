@@ -19,19 +19,19 @@ chrome.runtime.onInstalled.addListener(() => {
         title: "Actors",
         contexts: ["selection"]
     });
-
-    chrome.storage.local.set({ test: "myData2" }, () => {});
-    // chrome.storage.local.set({ mode: "uninitialized" }, () => {});
-
-    chrome.storage.local.set({ mode: 'uninitialized' }, () => {
-        if (chrome.runtime.lastError) {
-            console.error('Error setting value for key=mode:', chrome.runtime.lastError);
-        } else {
-            console.log('Value set successfully key=mode');
-        }
-    });
-
 });
+
+chrome.storage.local.set({ test: "myData2" }, () => {});
+// chrome.storage.local.set({ mode: "uninitialized" }, () => {});
+
+chrome.storage.local.set({ mode: 'uninitialized' }, () => {
+    if (chrome.runtime.lastError) {
+        console.error('Error setting value for key=mode:', chrome.runtime.lastError);
+    } else {
+        console.log('Value set successfully key=mode value=uninitialized');
+    }
+});
+
 
 //
 // chrome.storage.local.set(
@@ -45,36 +45,16 @@ chrome.runtime.onInstalled.addListener(() => {
 
 
 // Respond to popup requests
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+chrome.runtime.onMessage((message, sender, sendResponse) => {
     if (message.action === "getMovies") {
         console.log("sendResponse({ movies: movieTitles - NEXT", movieTitles);
         sendResponse({ movies: movieTitles });
         // chrome.storage.local.set({ mode: "movies" }, () => {});
-
-        chrome.storage.local.set({ mode: 'movies' }, () => {
-            if (chrome.runtime.lastError) {
-                console.error('Error setting value for key=mode value=movies:', chrome.runtime.lastError);
-            } else {
-                console.log('Value set successfully key=mode value=movies');
-            }
-        });
-
-
         console.log("sendResponse({ movies: movieTitles - AFTER", movieTitles);
     } else  if (message.action === "getActors") {
         console.log("sendResponse({ movies: getActors - NEXT", movieActors);
         sendResponse({ actors: movieActors });
         // chrome.storage.local.set({ mode: "actors" }, () => {});
-
-        chrome.storage.local.set({ mode: 'actors' }, () => {
-            if (chrome.runtime.lastError) {
-                console.error('Error setting value for key=mode value=actors:', chrome.runtime.lastError);
-            } else {
-                console.log('Value set successfully key=mode value=actors');
-            }
-        });
-
-
         console.log("sendResponse({ movies: getActors - AFTER", movieActors);
     } else if (message.action === "processMovies") {
         console.log("Processing movies:", message.movies);
@@ -89,13 +69,20 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 let invocationContext = "toolbar"; // Default to toolbar
 
-chrome.contextMenus.onClicked.addListener((info) => {
+chrome.contextMenus.onClicked((info) => {
     if (info.menuItemId === "movieTitle" && info.selectionText) {
         invocationContext = "contextMenu"; // Update context
         const inputText = info.selectionText.trim();
 
         console.log("background inputText:",inputText);
 
+        chrome.storage.local.set({ mode: 'movies' }, () => {
+            if (chrome.runtime.lastError) {
+                console.error('Error setting value for key=mode value=movies:', chrome.runtime.lastError);
+            } else {
+                console.log('Value set successfully key=mode value=movies');
+            }
+        });
 
         findMovieTitles(inputText).then((titles) => {
             console.log("background titles:",titles);
@@ -107,48 +94,10 @@ chrome.contextMenus.onClicked.addListener((info) => {
                     const movieTitle = extractMovieTitle(titles[0]);
                     aggregateSearchResultsInNewWindow(movieTitle);
                 } else {
-                //     chrome.storage.local.set({movies: titles}, () => {
-                //         chrome.action.openPopup();
-                // });
-                // Store multiple movies and show popup
-                console.log("local set next titles:",titles);
 
-                chrome.storage.local.set({ movies: titles }, () => {
-                        chrome.windows.create({
-                            url: "popup.html",
-                            type: "popup",
-                            width: 400,
-                            height: 600
-                        });
-                    });
-            };
-        });
-    };
+                console.log("local set next titles:", titles);
 
-
-    if (info.menuItemId === "movieActor" && info.selectionText) {
-        invocationContext = "contextMenu"; // Update context
-        const inputText = info.selectionText.trim();
-
-        console.log("background inputText:",inputText);
-
-        findMovieActors(inputText).then((actors) => {
-            console.log("background actors:", actors);
-
-            movieActors = actors;
-
-            if (actors.length === 1) {
-                // // Directly process the single movie
-                // const movieTitle = extractMovieTitle(titles[0]);
-                // aggregateSearchResultsInNewWindow(movieTitle);
-            } else {
-                //     chrome.storage.local.set({movies: titles}, () => {
-                //         chrome.action.openPopup();
-                // });
-                // Store multiple movies and show popup
-                console.log("local set next actors:",actors);
-
-                chrome.storage.local.set({ actors: actors }, () => {
+                chrome.storage.local.set({movies: titles}, () => {
                     chrome.windows.create({
                         url: "popup.html",
                         type: "popup",
@@ -159,9 +108,54 @@ chrome.contextMenus.onClicked.addListener((info) => {
             };
         });
     };
+
+
+    if (info.menuItemId === "movieActor" && info.selectionText) {
+        invocationContext = "contextMenu"; // Update context
+        const inputText = info.selectionText.trim();
+
+        console.log("background inputText:", inputText);
+
+        chrome.storage.local.set({ mode: 'actors' }, () => {
+            if (chrome.runtime.lastError) {
+                console.error('Error setting value for key=mode value=actors:', chrome.runtime.lastError);
+            } else {
+                console.log('Value set successfully key=mode value=actors');
+            }
+        });
+
+
+
+        findMovieActors(inputText).then((actors) => {
+            console.log("background actors:", actors);
+
+            movieActors = actors;
+
+            if (actors.length === 1) {
+                // // Directly process the single movie
+                // const movieTitle = extractMovieTitle(titles[0]);
+                // aggregateSearchResultsInNewWindow(movieTitle);
+                alert(`There are exactly one actor. no further processing at this time`)
+            } else {
+
+                console.log("local set next actors:", actors);
+
+                chrome.storage.local.set({actors: actors}, () => {
+                    chrome.windows.create({
+                        url: "popup.html",
+                        type: "popup",
+                        width: 400,
+                        height: 600
+                    });
+                });
+            }
+            ;
+        });
+    }
+    ;
 });
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+chrome.runtime.onMessage((message, sender, sendResponse) => {
         if (message.action === "getContext") {
             sendResponse({context: invocationContext});
             // Reset context to default
@@ -183,7 +177,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         }
     }
 );
-
 
 
 // Helper function to find movie titles using OpenAI
