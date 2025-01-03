@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function paintDisplay(mmode) {
 
-        document.title = `Movie Magic ${myRelease} - ${myTime} - ${mode}` ;
+        document.title = `Movie Magic ${myRelease} - ${myTime} - ${mmode}` ;
 
         if (mmode == 'movies') {
             chrome.runtime.sendMessage({action: "getMovies"}, (response) => {
