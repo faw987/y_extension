@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Movie Magic",
-  "version": "1.2",
+  "version": "0.92",
   "description": "Find movie information titles/actors in selected text and process them.",
   "permissions": [
     "contextMenus",
