@@ -21,8 +21,6 @@ chrome.runtime.onInstalled.addListener(() => {
     });
 });
 
-chrome.storage.local.set({ test: "myData2" }, () => {});
-// chrome.storage.local.set({ mode: "uninitialized" }, () => {});
 
 chrome.storage.local.set({ mode: 'uninitialized' }, () => {
     if (chrome.runtime.lastError) {
@@ -32,7 +30,7 @@ chrome.storage.local.set({ mode: 'uninitialized' }, () => {
     }
 });
 
-// Respond to popup requests
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "getMovies") {
         console.log("sendResponse({ movies: movieTitles - NEXT", movieTitles);
@@ -210,12 +208,6 @@ async function findMovieTitles(inputText, apiKey) {
     console.log(`background resultText ${resultText}`)
     return resultText ? resultText.split("\n").map((line) => line.trim()) : [];
 };
-
-
-// list movies with robert mitchum in the cast released between 1900 and 1950.
-// for each moie provide the: title, release year
-// and a one sentence terse pithy and consise summary
-// if you can find one or more "star" ratings, provide all such star rating on a seperate line.
 
 
 // Helper function to find movie titles using OpenAI

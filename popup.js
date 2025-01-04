@@ -23,10 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-
-    // Function to hide one of the buttons
     //
-    // if true movie is shown else actor is shown
+    // if true movie button is shown else actor button is shown
     //
     function toggleButtons(showMovieTable) {
         const movieButton = document.getElementById('openMovieTable');
@@ -68,14 +66,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const myRelease = "0.93";
     document.title = `Movie Magic ${myRelease} - ${myTime} - ???` ;
 
-    chrome.storage.local.get("test", (data) => {
-        console.log("chrome.storage.local.get test:", data.test);
-    });
-
     chrome.storage.local.get("mode", (data) => {
         console.log("EXTRA          chrome.storage.local.get mode:", data.mode);
     });
-
 
     function buildHtmlMovies(movies, moviesList) {
         movies.forEach((movie) => {
@@ -168,8 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     getMoreInfo.classList.remove("hidden");
                 }
             });
-        }
-        ;
+        };
 
         if (mmode == 'actors') {
 
@@ -189,8 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     getMoreInfo.classList.remove("hidden");
                 }
             });
-        }
-        ;
+        };
     }
 
 // Determine the context: toolbar or context menu
@@ -243,13 +234,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Handle movie link click
+// Handle movie link click
     function handleMovieClick(movieName) {
         console.log(`Movie clicked: ${movieName}`);
         aggregateSearchResultsInNewWindow(movieName);
     }
 
-    //
 // Save configuration
     openMovieTable.addEventListener("click", () => {
         chrome.runtime.sendMessage({action: "getMovies"}, (response) => {
@@ -262,7 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    //
+
 // Save configuration
     openActorTable.addEventListener("click", () => {
         chrome.runtime.sendMessage({action: "getActors"}, (response) => {
