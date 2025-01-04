@@ -277,43 +277,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // Save configuration
-    resetTablesButton.addEventListener("click", () => {
-
-        // console.log("resetTablesButton clicked");
-        alert("resetTablesButton before send");
-
-        chrome.runtime.sendMessage({action: "resetTables"}, () => {
-
-            // Access the div element by its id
-            const moviesList = document.getElementById('moviesList');
-
-            // Clear the content of the div
-            moviesList.innerHTML = '';
-
-            // Clear the content of the div
-            moviesList.replaceChildren();
-
-
-            // Trigger a reflow by accessing the offsetHeight property
-            void moviesList.offsetHeight;
-
-            // console.log("resetTablesButton sendMessage complete");
-            alert("resetTablesButton after send 1 - done");
-
-            let mmode = "";
-
-            chrome.storage.local.get("mode", (data) => {
-                mmode = data.mode;
-                console.log(">>>>>>>>>>>>>>>>>> data:", data);
-                console.log(">>>>>>>>>>>>>>>>>> mmode:", mmode);
-                paintDisplay(mmode);
-            });
-
-        });
-
-        alert("resetTablesButton after send 2");
-
-    });
+    // resetTablesButton.addEventListener("click", () => {
+    //
+    //     // console.log("resetTablesButton clicked");
+    //     alert("resetTablesButton before send");
+    //
+    //     chrome.runtime.sendMessage({action: "resetTables"}, () => {
+    //
+    //         // Access the div element by its id
+    //         const moviesList = document.getElementById('moviesList');
+    //
+    //         // Clear the content of the div
+    //         moviesList.innerHTML = '';
+    //
+    //         // Clear the content of the div
+    //         moviesList.replaceChildren();
+    //
+    //
+    //         // Trigger a reflow by accessing the offsetHeight property
+    //         void moviesList.offsetHeight;
+    //
+    //         // console.log("resetTablesButton sendMessage complete");
+    //         alert("resetTablesButton after send 1 - done");
+    //
+    //         let mmode = "";
+    //
+    //         chrome.storage.local.get("mode", (data) => {
+    //             mmode = data.mode;
+    //             console.log(">>>>>>>>>>>>>>>>>> data:", data);
+    //             console.log(">>>>>>>>>>>>>>>>>> mmode:", mmode);
+    //             paintDisplay(mmode);
+    //         });
+    //
+    //     });
+    //
+    //     alert("resetTablesButton after send 2");
+    //
+    // });
 
 });
 
