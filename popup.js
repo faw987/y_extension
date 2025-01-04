@@ -23,6 +23,24 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+
+    // Function to hide one of the buttons
+    //
+    // if true movie is shown else actor is shown
+    //
+    function toggleButtons(showMovieTable) {
+        const movieButton = document.getElementById('openMovieTable');
+        const actorButton = document.getElementById('openActorTable');
+
+        if (showMovieTable) {
+            movieButton.classList.remove('hidden'); // Show Movie Table button
+            actorButton.classList.add('hidden');   // Hide Actor Table button
+        } else {
+            movieButton.classList.add('hidden');   // Hide Movie Table button
+            actorButton.classList.remove('hidden'); // Show Actor Table button
+        }
+    }
+
     function getCurrentTime() {
         // Get the current date and time
         const now = new Date();
@@ -132,6 +150,10 @@ document.addEventListener("DOMContentLoaded", () => {
         document.title = `Movie Magic ${myRelease} - ${myTime} - ${mmode}` ;
 
         if (mmode == 'movies') {
+
+
+            toggleButtons(true);
+
             chrome.runtime.sendMessage({action: "getMovies"}, (response) => {
                 const movies = response.movies || [];
 
@@ -150,6 +172,9 @@ document.addEventListener("DOMContentLoaded", () => {
         ;
 
         if (mmode == 'actors') {
+
+            toggleButtons(false);
+
             chrome.runtime.sendMessage({action: "getActors"}, (response) => {
                 const actors = response.actors || [];
 
