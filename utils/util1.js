@@ -15,20 +15,23 @@ export function calcResults() {
     return pp1;
 }
 
-export async function processMovieList(inputText) {
-    try {
-        return "The Graduate";
-        const titles = await findMovieTitle(inputText); // Call helper function
-        if (titles && titles.length > 0) {
-            showNotification("Movie Titles Found", titles.join("\n"));
-        } else {
-            showNotification("No Movie Titles Found", "No recognizable movie titles were detected.");
-        }
-    } catch (error) {
-        console.error("Error processing movie list:", error);
-        showNotification("Error", "Failed to process the list. Check the console for details.");
-    }
-}
+
+// old not used function follows:
+
+// export async function processMovieList(inputText) {
+//     try {
+//         return "The Graduate";
+//         const titles = await findMovieTitle(inputText); // Call helper function
+//         if (titles && titles.length > 0) {
+//             showNotification("Movie Titles Found", titles.join("\n"));
+//         } else {
+//             showNotification("No Movie Titles Found", "No recognizable movie titles were detected.");
+//         }
+//     } catch (error) {
+//         console.error("Error processing movie list:", error);
+//         showNotification("Error", "Failed to process the list. Check the console for details.");
+//     }
+// }
 
 // Helper function to show notifications
 export function showNotification(title, message) {
@@ -40,45 +43,47 @@ export function showNotification(title, message) {
     });
 }
 
+// old not used
+
 // Helper function to find movie titles using OpenAI
-export async function findMovieTitle(inputText) {
-
-    const apiUrl = "https://api.openai.com/v1/chat/completions";
-
-    const apiKey = `${calcResults()}`; // Replace with your API key
-
-    const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${apiKey}`
-        },
-        body: JSON.stringify({
-            model: "gpt-3.5-turbo",
-            messages: [
-                {
-                    role: "system",
-                    content: "You are a helpful assistant that identifies movie titles from input text."
-                },
-                {
-                    role: "user",
-                    content: `Find the movie titles in the following text:\n${inputText}`
-                }
-            ],
-            max_tokens: 200
-        })
-    });
-
-    if (!response.ok) {
-        throw new Error(`OpenAI API error: ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    const resultText = data.choices[0]?.message?.content?.trim();
-
-    // Parse the result into a list of titles
-    return resultText ? resultText.split("\n").map((line) => line.trim()) : [];
-}
+// export async function findMovieTitle(inputText) {
+//
+//     const apiUrl = "https://api.openai.com/v1/chat/completions";
+//
+//     const apiKey = `${calcResults()}`; // Replace with your API key
+//
+//     const response = await fetch(apiUrl, {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json",
+//             Authorization: `Bearer ${apiKey}`
+//         },
+//         body: JSON.stringify({
+//             model: "gpt-3.5-turbo",
+//             messages: [
+//                 {
+//                     role: "system",
+//                     content: "You are a helpful assistant that identifies movie titles from input text."
+//                 },
+//                 {
+//                     role: "user",
+//                     content: `Find the movie titles in the following text:\n${inputText}`
+//                 }
+//             ],
+//             max_tokens: 200
+//         })
+//     });
+//
+//     if (!response.ok) {
+//         throw new Error(`OpenAI API error: ${response.statusText}`);
+//     }
+//
+//     const data = await response.json();
+//     const resultText = data.choices[0]?.message?.content?.trim();
+//
+//     // Parse the result into a list of titles
+//     return resultText ? resultText.split("\n").map((line) => line.trim()) : [];
+// }
 
 // Check if input is a URL
 export function isUrl(input) {
