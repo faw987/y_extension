@@ -216,7 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     // responseText.textContent = resp;
                 });
 
-                console.log(`results: "${results}`);
+                // console.log(`results: "${results}`);
 
             } catch (error) {
                 alert(`Error rendering URL content: ${error.message}`);
