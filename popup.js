@@ -204,8 +204,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 // inputText = await renderAndExtractText(userQuery);
                 // inputText = await openTabAndExtractWords(userQuery,500);
                 fetchBodyText(userQuery).then((resp) => {
-                    console.log(`Response:`, resp);
-                    findTitles(inputText, 'movies').then((resp) => {
+                    console.log(`Response:`, resp.split(/\s+/).slice(0, 250));
+                    findTitles(resp, 'movies').then((resp) => {
                         console.log(`Response:`, resp);
                         // responseText.textContent = resp;
                     });
