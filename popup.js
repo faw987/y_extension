@@ -162,6 +162,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const data = await response.json();
         const resultText = data.choices[0]?.message?.content?.trim();
+
+        chrome.notifications.create({
+            type: "basic",
+            // iconUrl: "icon128.png",
+            title: "xxxfindMovieTitles Complete",
+            message: `the resultText: ${resultText}`,
+        });
+
         return resultText ? resultText.split("\n").map(line => line.trim()) : [];
     };
 

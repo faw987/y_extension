@@ -6,14 +6,14 @@ import { extractMovieTitle } from './utils/util1.js';
 let movieTitles = [];
 let movieActors = [];
 
-
+let apikey = ''
 
 const key='openaikey';
 chrome.storage.local.get([key], (data) => {
         if (data[key] !== undefined) {
-            valueField.value = data[key];
+            // valueField.value = data[key];
             console.log(`Retrieved: ${key} = ${data[key]}`);
-            let apikey = data[key];
+            apikey = data[key];
         } else {
             console.log(`Key "${key}" not found.`);
         }
@@ -84,10 +84,12 @@ chrome.contextMenus.onClicked.addListener((info) => {
             }
         });
 
-        findMovieTitles(inputText).then((titles) => {
+        findMovieTitles(inputText,apikey).then((titles) => {
             console.log("background titles:",titles);
 
             movieTitles = titles;
+
+
 
             if (titles.length === 1) {
                     // Directly process the single movie
