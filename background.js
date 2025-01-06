@@ -12,10 +12,10 @@ const key='openaikey';
 chrome.storage.local.get([key], (data) => {
         if (data[key] !== undefined) {
             valueField.value = data[key];
-            alert(`Retrieved: ${key} = ${data[key]}`);
+            console.log(`Retrieved: ${key} = ${data[key]}`);
             let apikey = data[key];
         } else {
-            alert(`Key "${key}" not found.`);
+            console.log(`Key "${key}" not found.`);
         }
     });
 
