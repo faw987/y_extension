@@ -128,6 +128,43 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+    async function findTitles(inputText, type) {
+        const typePrompt = {
+            movies: "Identify all movie titles",
+            actors: "Identify all actor names",
+            other: "Identify all other related items"
+        }[type];
+
+        const apiKey2 = `${calcResults()}`; // Replace with your API key
+        const response = await fetch("https://api.openai.com/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${apiKey2}`
+            },
+            body: JSON.stringify({
+                model: "gpt-4o-mini",
+                messages: [
+                    {role: "system", content: `${typePrompt} in the given text.`},
+                    {
+                        role: "user",
+                        content: `Extract ${typePrompt.toLowerCase()} from the following text:\n${inputText}.
+                      List each on a separate line. No numbering or punctuation.`
+                    }
+                ],
+                max_tokens: 200
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`API error: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        const resultText = data.choices[0]?.message?.content?.trim();
+        return resultText ? resultText.split("\n").map(line => line.trim()) : [];
+    };
+
     async function fetchBodyText(url) {
         try {
             // Fetch the HTML content of the URL
