@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const myTime = getCurrentTime();
     const myRelease = "0.93";
-    document.title = `Movie Magic ${myRelease} - ${myTime} - ???` ;
+    document.title = `Movie Magic ${myRelease} - ${myTime} - ???`;
 
     chrome.storage.local.get("mode", (data) => {
         console.log("EXTRA          chrome.storage.local.get mode:", data.mode);
@@ -117,14 +117,78 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+
+    function isValidURL(string) {
+        try {
+            new URL(string);
+            return true;
+        } catch (_) {
+            return false;
+        }
+    }
+
+
+    async function fetchBodyText(url) {
+        try {
+            // Fetch the HTML content of the URL
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const htmlText = await response.text();
+
+            // Parse the HTML content
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlText, "text/html");
+
+            // Get the inner text of the body
+            const bodyText = doc.body.innerText;
+
+            console.log("Body Text:", bodyText);
+            return bodyText;
+        } catch (error) {
+            console.error("Failed to fetch body text:", error);
+        }
+    }
+
+
     // Function to handle the search action
     function handleSearch() {
         const userQuery = queryInput.value.trim();
-        if (userQuery) {
+        // if (userQuery) {
+        //     const processedQuery = extractMovieTitle(userQuery);
+        //     aggregateSearchResultsInNewWindow(processedQuery);
+        // } else {
+        //     alert("Please enter a valid query.");
+        // }
+
+        if (isValidURL(userQuery)) {
+            try {
+                // inputText = await renderAndExtractText(userQuery);
+                // inputText = await openTabAndExtractWords(userQuery,500);
+                const inputText = fetchBodyText(userQuery);
+                // console.log(`Query: ${userQuery}. result: "${inputText}`);
+                // results = await findTitles(inputText, queryType);
+                // results = await findTitles(inputText, 'movies');
+                //
+                // findTitles(inputText, 'movies')
+                //     .then(response => response.text())
+
+                findTitles(inputText, 'movies').then((resp) => {
+                    console.log(`Response:`, resp);
+                    // responseText.textContent = resp;
+                });
+
+                console.log(`results: "${results}`);
+
+            } catch (error) {
+                alert(`Error rendering URL content: ${error.message}`);
+                return;
+            }
+        } else {
+// Pre-process the input if needed
             const processedQuery = extractMovieTitle(userQuery);
             aggregateSearchResultsInNewWindow(processedQuery);
-        } else {
-            alert("Please enter a valid query.");
         }
     }
 
@@ -140,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function paintDisplay(mmode) {
 
-        document.title = `Movie Magic ${myRelease} - ${myTime} - ${mmode}` ;
+        document.title = `Movie Magic ${myRelease} - ${myTime} - ${mmode}`;
 
         if (mmode == 'movies') {
 
@@ -161,7 +225,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     getMoreInfo.classList.remove("hidden");
                 }
             });
-        };
+        }
+        ;
 
         if (mmode == 'actors') {
 
@@ -181,7 +246,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     getMoreInfo.classList.remove("hidden");
                 }
             });
-        };
+        }
+        ;
     }
 
 // Determine the context: toolbar or context menu
@@ -273,47 +339,5 @@ document.addEventListener("DOMContentLoaded", () => {
             width: 350,
             height: 400
         });
-    });
-
-
-    // Save configuration
-    // resetTablesButton.addEventListener("click", () => {
-    //
-    //     // console.log("resetTablesButton clicked");
-    //     alert("resetTablesButton before send");
-    //
-    //     chrome.runtime.sendMessage({action: "resetTables"}, () => {
-    //
-    //         // Access the div element by its id
-    //         const moviesList = document.getElementById('moviesList');
-    //
-    //         // Clear the content of the div
-    //         moviesList.innerHTML = '';
-    //
-    //         // Clear the content of the div
-    //         moviesList.replaceChildren();
-    //
-    //
-    //         // Trigger a reflow by accessing the offsetHeight property
-    //         void moviesList.offsetHeight;
-    //
-    //         // console.log("resetTablesButton sendMessage complete");
-    //         alert("resetTablesButton after send 1 - done");
-    //
-    //         let mmode = "";
-    //
-    //         chrome.storage.local.get("mode", (data) => {
-    //             mmode = data.mode;
-    //             console.log(">>>>>>>>>>>>>>>>>> data:", data);
-    //             console.log(">>>>>>>>>>>>>>>>>> mmode:", mmode);
-    //             paintDisplay(mmode);
-    //         });
-    //
-    //     });
-    //
-    //     alert("resetTablesButton after send 2");
-    //
-    // });
-
+    })
 });
-
