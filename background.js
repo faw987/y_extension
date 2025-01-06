@@ -6,6 +6,19 @@ import { extractMovieTitle } from './utils/util1.js';
 let movieTitles = [];
 let movieActors = [];
 
+
+
+chrome.storage.local.get(['openaikey'], (data) => {
+    if (data[key] !== undefined) {
+        valueField.value = data[key];
+        alert(`Retrieved: ${key} = ${data[key]}`);
+        let apikey = data[key];
+    } else {
+        alert(`Key "${key}" not found.`);
+    }
+});
+
+
 // Add context menu items
 chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create({
@@ -175,12 +188,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 // Helper function to find movie titles using OpenAI
 async function findMovieTitles(inputText, apiKey) {
-    const apiKey2 = `${calcResults()}`; // Replace with your API key
+    // const apiKey2 = `${calcResults()}`; // Replace with your API key
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${apiKey2}`
+            Authorization: `Bearer ${apikey}`
         },
         body: JSON.stringify({
             model: "gpt-3.5-turbo",
@@ -212,7 +225,7 @@ async function findMovieTitles(inputText, apiKey) {
 
 // Helper function to find movie titles using OpenAI
 async function findMovieActors(inputText, apiKey) {
-    const apiKey2 = `${calcResults()}`; // Replace with your API key
+    // const apiKey2 = `${calcResults()}`; // Replace with your API key
 
     const earliestYear = 1900;
     const latestYear = 1960;
@@ -221,7 +234,7 @@ async function findMovieActors(inputText, apiKey) {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${apiKey2}`
+            Authorization: `Bearer ${apiKey}`
         },
         body: JSON.stringify({
             // model: "gpt-3.5-turbo",
