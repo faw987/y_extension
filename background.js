@@ -8,15 +8,17 @@ let movieActors = [];
 
 
 
-chrome.storage.local.get(['openaikey'], (data) => {
-    if (data[key] !== undefined) {
-        valueField.value = data[key];
-        alert(`Retrieved: ${key} = ${data[key]}`);
-        let apikey = data[key];
-    } else {
-        alert(`Key "${key}" not found.`);
-    }
-});
+const key='openaikey';
+chrome.storage.local.get([key], (data) => {
+        if (data[key] !== undefined) {
+            valueField.value = data[key];
+            alert(`Retrieved: ${key} = ${data[key]}`);
+            let apikey = data[key];
+        } else {
+            alert(`Key "${key}" not found.`);
+        }
+    });
+}
 
 
 // Add context menu items
