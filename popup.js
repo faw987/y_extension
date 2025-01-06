@@ -203,7 +203,16 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
                 // inputText = await renderAndExtractText(userQuery);
                 // inputText = await openTabAndExtractWords(userQuery,500);
-                const inputText = fetchBodyText(userQuery);
+                fetchBodyText(userQuery).then((resp) => {
+                    console.log(`Response:`, resp);
+                    findTitles(inputText, 'movies').then((resp) => {
+                        console.log(`Response:`, resp);
+                        // responseText.textContent = resp;
+                    });
+
+                    // responseText.textContent = resp;
+                });
+                // const inputText = fetchBodyText(userQuery);
                 // console.log(`Query: ${userQuery}. result: "${inputText}`);
                 // results = await findTitles(inputText, queryType);
                 // results = await findTitles(inputText, 'movies');
@@ -211,10 +220,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 // findTitles(inputText, 'movies')
                 //     .then(response => response.text())
 
-                findTitles(inputText, 'movies').then((resp) => {
-                    console.log(`Response:`, resp);
-                    // responseText.textContent = resp;
-                });
+                // findTitles(inputText, 'movies').then((resp) => {
+                //     console.log(`Response:`, resp);
+                //     // responseText.textContent = resp;
+                // });
 
                 // console.log(`results: "${results}`);
 
