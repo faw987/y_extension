@@ -18,7 +18,6 @@ chrome.storage.local.get([key], (data) => {
             alert(`Key "${key}" not found.`);
         }
     });
-}
 
 
 // Add context menu items
