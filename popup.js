@@ -1,7 +1,26 @@
 import {callOpenAI} from './utils/openai.js';
 import {logInfo, logError} from './utils/logger.js';
-import {aggregateSearchResultsInNewWindow, calcResults} from './utils/util1.js';
+// import {aggregateSearchResultsInNewWindow, calcResults} from './utils/util1.js';
+import {aggregateSearchResultsInNewWindow } from './utils/util1.js';
 import {extractMovieTitle} from './utils/util1.js';
+
+
+var apikey = '';
+// console.log(`>>>>>>>>>>>>>>>>>>>>>>> apikey: ${apikey}`);
+
+const key='openaikey';
+chrome.storage.local.get([key], (data) => {
+    if (data[key] !== undefined) {
+        // valueField.value = data[key];
+        console.log(`Retrieved: ${key} = ${data[key]}`);
+        apikey = data[key];
+    } else {
+        console.log(`Key "${key}" not found.`);
+    }
+});
+
+console.log(`>>>>>>>>>>>>>>>>>>>>>>> apikey: ${apikey}`)
+
 
 document.addEventListener("DOMContentLoaded", () => {
     const inputContainer = document.getElementById("inputContainer");
@@ -135,12 +154,14 @@ document.addEventListener("DOMContentLoaded", () => {
             other: "Identify all other related items"
         }[type];
 
-        const apiKey2 = `${calcResults()}`; // Replace with your API key
+        console.log(`>>>>>>>>>>>>>>>>>>>>>>> apikey: ${apikey}`)
+
+        // const apiKey2 = `${calcResults()}`; // Replace with your API key
         const response = await fetch("https://api.openai.com/v1/chat/completions", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${apiKey2}`
+                Authorization: `Bearer ${apikey}`
             },
             body: JSON.stringify({
                 model: "gpt-4o-mini",
@@ -163,12 +184,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = await response.json();
         const resultText = data.choices[0]?.message?.content?.trim();
 
-        chrome.notifications.create({
-            type: "basic",
-            // iconUrl: "icon128.png",
-            title: "xxxfindMovieTitles Complete",
-            message: `the resultText: ${resultText}`,
-        });
+        // chrome.notifications.create({
+        //     type: "basic",
+        //     // iconUrl: "icon128.png",
+        //     title: "xxxfindMovieTitles Complete",
+        //     message: `the resultText: ${resultText}`,
+        // });
 
         return resultText ? resultText.split("\n").map(line => line.trim()) : [];
     };

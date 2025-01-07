@@ -7,6 +7,7 @@
     "contextMenus",
     "activeTab",
     "scripting",
+    "notifications",
     "storage"
   ],
   "background": {

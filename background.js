@@ -1,12 +1,14 @@
 import { callOpenAI } from './utils/openai.js';
-import {aggregateSearchResultsInNewWindow, calcResults} from './utils/util1.js';
+// import {aggregateSearchResultsInNewWindow, calcResults} from './utils/util1.js';
+import {aggregateSearchResultsInNewWindow} from './utils/util1.js';
 import { logInfo, logError } from './utils/logger.js';
 import { extractMovieTitle } from './utils/util1.js';
 
 let movieTitles = [];
 let movieActors = [];
 
-let apikey = ''
+var apikey = '';
+// console.log(`>>>>>>>>>>>>>>>>>>>>>>> apikey: ${apikey}`);
 
 const key='openaikey';
 chrome.storage.local.get([key], (data) => {
@@ -19,6 +21,21 @@ chrome.storage.local.get([key], (data) => {
         }
     });
 
+// console.log(`>>>>>>>>>>>>>>>>>>>>>>> apikey: ${apikey}`)
+
+
+chrome.notifications.create({
+    type: "basic",
+    iconUrl: "icons/icon.png", // Replace with an actual icon in your extension folder
+    title: "Hello, World!",
+    message: "This is a basic notification example.",
+}, () => {
+    if (chrome.runtime.lastError) {
+        console.error("Notification error:", chrome.runtime.lastError);
+    } else {
+        console.log("Notification created successfully.");
+    }
+});
 
 // Add context menu items
 chrome.runtime.onInstalled.addListener(() => {
@@ -49,12 +66,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "getMovies") {
         console.log("sendResponse({ movies: movieTitles - NEXT", movieTitles);
         sendResponse({ movies: movieTitles });
-        // chrome.storage.local.set({ mode: "movies" }, () => {});
         console.log("sendResponse({ movies: movieTitles - AFTER", movieTitles);
     } else  if (message.action === "getActors") {
         console.log("sendResponse({ movies: getActors - NEXT", movieActors);
         sendResponse({ actors: movieActors });
-        // chrome.storage.local.set({ mode: "actors" }, () => {});
         console.log("sendResponse({ movies: getActors - AFTER", movieActors);
     } else if (message.action === "processMovies") {
         console.log("Processing movies:", message.movies);
@@ -84,12 +99,10 @@ chrome.contextMenus.onClicked.addListener((info) => {
             }
         });
 
-        findMovieTitles(inputText,apikey).then((titles) => {
+        findMovieTitles(inputText).then((titles) => {
             console.log("background titles:",titles);
 
             movieTitles = titles;
-
-
 
             if (titles.length === 1) {
                     // Directly process the single movie
@@ -126,6 +139,7 @@ chrome.contextMenus.onClicked.addListener((info) => {
             }
         });
 
+        // console.log(`>>>>>>>>>>>>>>>>>>>>>>> apiKey: ${apikey}`)
 
 
         findMovieActors(inputText).then((actors) => {
@@ -150,11 +164,9 @@ chrome.contextMenus.onClicked.addListener((info) => {
                         height: 600
                     });
                 });
-            }
-            ;
+            };
         });
-    }
-    ;
+    };
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -190,7 +202,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 
 // Helper function to find movie titles using OpenAI
-async function findMovieTitles(inputText, apiKey) {
+async function findMovieTitles(inputText) {
     // const apiKey2 = `${calcResults()}`; // Replace with your API key
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
@@ -227,17 +239,18 @@ async function findMovieTitles(inputText, apiKey) {
 
 
 // Helper function to find movie titles using OpenAI
-async function findMovieActors(inputText, apiKey) {
-    // const apiKey2 = `${calcResults()}`; // Replace with your API key
+async function findMovieActors(inputText) {
 
     const earliestYear = 1900;
     const latestYear = 1960;
+
+    console.log(`>>>>>>>>>>>>>>>>>>>>>>> apiKey: ${apikey}`)
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${apiKey}`
+            Authorization: `Bearer ${apikey}`
         },
         body: JSON.stringify({
             // model: "gpt-3.5-turbo",
