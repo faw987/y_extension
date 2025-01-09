@@ -10,6 +10,65 @@ let movieActors = [];
 var apikey = '';
 // console.log(`>>>>>>>>>>>>>>>>>>>>>>> apikey: ${apikey}`);
 
+const CURRENT_CONFIG_VERSION = 2;
+const DEFAULT_CONFIG = {
+    version: CURRENT_CONFIG_VERSION,
+    theme: "light",
+    notificationsEnabled: true,
+};
+
+// Run migration on extension update
+chrome.runtime.onInstalled.addListener((details) => {
+    if (details.reason === "update") {
+        console.log("Extension updated!");
+
+        // Load existing configuration
+        chrome.storage.local.get("config", (data) => {
+            const oldConfig = data.config;
+
+            if (oldConfig) {
+                // Check if migration is needed
+                if (oldConfig.version !== CURRENT_CONFIG_VERSION) {
+                    const migratedConfig = migrateConfig(oldConfig, CURRENT_CONFIG_VERSION);
+                    chrome.storage.local.set({ config: migratedConfig }, () => {
+                        console.log("Config migrated to version:", CURRENT_CONFIG_VERSION);
+                    });
+                } else {
+                    console.log("Config is already up to date.");
+                }
+            } else {
+                // No existing config, initialize defaults
+                chrome.storage.local.set({ config: DEFAULT_CONFIG }, () => {
+                    console.log("Initialized default configuration.");
+                });
+            }
+        });
+    } else if (details.reason === "install") {
+        console.log("Extension installed for the first time.");
+        chrome.storage.local.set({ config: DEFAULT_CONFIG });
+    }
+});
+
+// Migration logic
+function migrateConfig(oldConfig, newVersion) {
+    console.log("Migrating config from version", oldConfig.version, "to", newVersion);
+
+    // Start with old config and add/update fields
+    const newConfig = { ...oldConfig, version: newVersion };
+
+    // Add new fields with default values
+    if (!("notificationsEnabled" in newConfig)) {
+        newConfig.notificationsEnabled = true;
+    }
+
+    if (!("theme" in newConfig)) {
+        newConfig.theme = "light";
+    }
+
+    return newConfig;
+}
+
+
 const key='openaikey';
 chrome.storage.local.get([key], (data) => {
         if (data[key] !== undefined) {
