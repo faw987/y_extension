@@ -85,7 +85,7 @@ chrome.storage.local.get([key], (data) => {
 
 chrome.notifications.create({
     type: "basic",
-    iconUrl: "icons/icon.png", // Replace with an actual icon in your extension folder
+    iconUrl: "icons/icon128.png", // Replace with an actual icon in your extension folder
     title: "Hello, World!",
     message: "This is a basic notification example.",
 }, () => {
