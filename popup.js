@@ -82,8 +82,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     const myTime = getCurrentTime();
-    const myRelease = "0.93";
-    document.title = `Movie Magic ${myRelease} - ${myTime} - ???`;
+    const myRelease = "0.95";
+    document.title = `Mr. Movie ${myRelease} - ${myTime} - ???`;
 
     chrome.storage.local.get("mode", (data) => {
         console.log("EXTRA          chrome.storage.local.get mode:", data.mode);
@@ -279,7 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function paintDisplay(mmode) {
 
-        document.title = `Movie Magic ${myRelease} - ${myTime} - ${mmode}`;
+        document.title = `Mr. Movie ${myRelease} - ${myTime} - ${mmode}`;
 
         if (mmode == 'movies') {
 
