@@ -89,9 +89,9 @@ chrome.storage.local.get([key], (data) => {
     });
 
 // console.log(`>>>>>>>>>>>>>>>>>>>>>>> apikey: ${apikey}`)
-
-findMovieTitles("The Graduate").then((titles) => {
-    let testAPI = titles;});
+//
+// findMovieTitles("The Graduate").then((titles) => {
+//     let testAPI = titles;});
 
 chrome.notifications.create({
     type: "basic",
