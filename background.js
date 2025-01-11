@@ -90,12 +90,14 @@ chrome.storage.local.get([key], (data) => {
 
 // console.log(`>>>>>>>>>>>>>>>>>>>>>>> apikey: ${apikey}`)
 
+findMovieTitles("The Graduate").then((titles) => {
+    let testAPI = titles;});
 
 chrome.notifications.create({
     type: "basic",
-    iconUrl: "icons/icon128.png", // Replace with an actual icon in your extension folder
+    iconUrl: "icons/video-camera128128.png", // Replace with an actual icon in your extension folder
     title: "Hello, World!",
-    message: "This is a basic notification example.",
+    message: `This is a basic notification example. testAPI: ${testAPI}`,
 }, () => {
     if (chrome.runtime.lastError) {
         console.error("Notification error:", chrome.runtime.lastError);
