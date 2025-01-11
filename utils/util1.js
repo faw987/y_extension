@@ -55,7 +55,6 @@ const searchEngines = [
     { name: "Amazon", url: (query) => `https://www.amazon.com/s?k=${encodeURIComponent(query)}` },
     { name: "faw98", url: (query) => `http://faw987.github.io/faw98?text=${encodeURIComponent(query)}&model=o1-mini&title=true&submit=true` },
     { name: "free", url: (query) => `https://www.google.com/search?q=${encodeURIComponent(query)}&tbm=vid` }
-` }
 ];
 
 
