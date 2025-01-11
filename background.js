@@ -6,7 +6,7 @@ import { extractMovieTitle } from './utils/util1.js';
 
 let movieTitles = [];
 let movieActors = [];
-
+let testAPI = '';
 var apikey = '';
 // console.log(`>>>>>>>>>>>>>>>>>>>>>>> apikey: ${apikey}`);
 
