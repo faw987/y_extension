@@ -17,7 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
         { name: "Netflix" },
         { name: "Wikipedia" },
         { name: "Amazon" },
-        { name: "faw98" }
+        { name: "faw98" },
+        { name: "free"},
+        { name: "restaurant"}
     ];
 
     // Load stored configuration

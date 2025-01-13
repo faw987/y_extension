@@ -137,6 +137,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+    function buildHtmlRestaurants(restaurants, restaurantList) {
+        restaurants.forEach((restaurant) => {
+            const item = document.createElement("div");
+            item.className = "movie-item";
+
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.value = restaurant;
+
+            const link = document.createElement("a");
+            link.textContent = restaurant;
+            link.href = "#";
+
+            // link.addEventListener("click", () => {
+            //     handleMovieClick(extractMovieTitle(movie));
+            // });
+
+            item.appendChild(checkbox);
+            item.appendChild(link);
+
+            moviesList.appendChild(item);
+        });
+    }
+
     function isValidURL(string) {
         try {
             new URL(string);
@@ -323,6 +347,29 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
         ;
+
+        if (mmode == 'restaurants') {
+
+            toggleButtons(false);
+
+            chrome.runtime.sendMessage({action: "getRestaurants"}, (response) => {
+                const restaurants = response.restaurants || [];
+
+                console.log(">>> getActors response:", response);
+
+                console.log("popup restaurants:", restaurants);
+
+                if (restaurants.length === 0) {
+                    moviesList.innerHTML = "<p>No restaurants found.</p>";
+                } else {
+                    buildHtmlActors(restaurants, moviesList);
+                    getMoreInfo.classList.remove("hidden");
+                }
+            });
+        }
+        ;
+
+
     }
 
 // Determine the context: toolbar or context menu
