@@ -89,28 +89,73 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("EXTRA          chrome.storage.local.get mode:", data.mode);
     });
 
-    function buildHtmlMovies(movies, moviesList) {
-        movies.forEach((movie) => {
-            const item = document.createElement("div");
-            item.className = "movie-item";
+    // function buildHtmlMovies(movies, moviesList) {
+    //     movies.forEach((movie) => {
+    //         const item = document.createElement("div");
+    //         item.className = "movie-item";
+    //
+    //         const checkbox = document.createElement("input");
+    //         checkbox.type = "checkbox";
+    //         checkbox.value = movie;
+    //
+    //         const link = document.createElement("a");
+    //         link.textContent = movie;
+    //         link.href = "#";
+    //         link.addEventListener("click", () => {
+    //             handleMovieClick(extractMovieTitle(movie));
+    //         });
+    //
+    //         item.appendChild(checkbox);
+    //         item.appendChild(link);
+    //
+    //         moviesList.appendChild(item);
+    //     });
+    // }
 
-            const checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.value = movie;
 
-            const link = document.createElement("a");
-            link.textContent = movie;
-            link.href = "#";
-            link.addEventListener("click", () => {
-                handleMovieClick(extractMovieTitle(movie));
-            });
+    function buildHtmlMovies(movies) {
+        const tableBody = document.querySelector("#moviesList tbody");
+        tableBody.innerHTML = ""; // Clear existing rows
 
-            item.appendChild(checkbox);
-            item.appendChild(link);
+        movies.forEach((movie, index) => {
+            const row = document.createElement("tr");
+            row.dataset.id = index;
 
-            moviesList.appendChild(item);
+            const movieCell = document.createElement("td");
+            movieCell.textContent = movie;
+
+            const scoreCell = document.createElement("td");
+            scoreCell.textContent = "N/A";
+
+            const infoCell = document.createElement("td");
+            infoCell.textContent = "N/A";
+
+            row.appendChild(movieCell);
+            row.appendChild(scoreCell);
+            row.appendChild(infoCell);
+
+            tableBody.appendChild(row);
         });
     }
+
+    function updateTableRow(movieId, newScore, additionalInfo) {
+        const row = document.querySelector(`#moviesTable tr[data-id='${movieId}']`);
+        if (row) {
+            row.children[1].textContent = newScore || "N/A"; // Update score column
+            row.children[2].textContent = additionalInfo || "N/A"; // Update additional info column
+        }
+    }
+//
+// // Example usage
+//     const movies = ["Movie 1", "Movie 2", "Movie 3"];
+//     buildMovieTable(movies);
+//
+// // Update the second movie row after some delay
+//     setTimeout(() => {
+//         updateTableRow(1, "92%", "Critic Favorite");
+//     }, 2000);
+
+
 
     function buildHtmlActors(actors, moviesList) {
         actors.forEach((actor) => {
