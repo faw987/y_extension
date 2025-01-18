@@ -136,13 +136,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-            const checkboxCell = document.createElement("input");
+            // const checkboxCell = document.createElement("input");
+            // let checkboxCell = document.createElement("td");
+            // checkboxCell = checkbox;
+            //
             // const movieCell = document.createElement("td");
-            checkboxCell = checkboxCell;
+            // // movieCell.textContent = movie;
+            // movieCell.textContent = link;
+
+            // Create table cells
+            const checkboxCell = document.createElement("td");
+            checkboxCell.appendChild(checkbox); // Append checkbox to the cell
 
             const movieCell = document.createElement("td");
-            // movieCell.textContent = movie;
-            movieCell.textContent = link;
+            movieCell.appendChild(link); // Append link to the cell
+
+
+
 
             const scoreCell = document.createElement("td");
             scoreCell.textContent = "N/A";
@@ -150,6 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const infoCell = document.createElement("td");
             infoCell.textContent = "N/A";
 
+            row.appendChild(checkboxCell);
             row.appendChild(movieCell);
             row.appendChild(scoreCell);
             row.appendChild(infoCell);
