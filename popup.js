@@ -121,8 +121,28 @@ document.addEventListener("DOMContentLoaded", () => {
             const row = document.createElement("tr");
             row.dataset.id = index;
 
+
+
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.value = movie;
+
+            const link = document.createElement("a");
+            link.textContent = movie;
+            link.href = "#";
+            link.addEventListener("click", () => {
+                handleMovieClick(extractMovieTitle(movie));
+            });
+
+
+
+            const checkboxCell = document.createElement("input");
+            // const movieCell = document.createElement("td");
+            checkboxCell = checkboxCell;
+
             const movieCell = document.createElement("td");
-            movieCell.textContent = movie;
+            // movieCell.textContent = movie;
+            movieCell.textContent = link;
 
             const scoreCell = document.createElement("td");
             scoreCell.textContent = "N/A";
